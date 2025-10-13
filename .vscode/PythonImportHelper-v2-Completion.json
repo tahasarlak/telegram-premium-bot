@@ -1,0 +1,542 @@
+[
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "BytesIO",
+        "importPath": "io",
+        "description": "io",
+        "isExtraImport": true,
+        "detail": "io",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "ImageDraw",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "ImageFont",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "aiohttp",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "aiohttp",
+        "description": "aiohttp",
+        "detail": "aiohttp",
+        "documentation": {}
+    },
+    {
+        "label": "redis.asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "redis.asyncio",
+        "description": "redis.asyncio",
+        "detail": "redis.asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "Bot",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "Dispatcher",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "types",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "F",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "Router",
+        "importPath": "aiogram",
+        "description": "aiogram",
+        "isExtraImport": true,
+        "detail": "aiogram",
+        "documentation": {}
+    },
+    {
+        "label": "RedisStorage",
+        "importPath": "aiogram.fsm.storage.redis",
+        "description": "aiogram.fsm.storage.redis",
+        "isExtraImport": true,
+        "detail": "aiogram.fsm.storage.redis",
+        "documentation": {}
+    },
+    {
+        "label": "InlineKeyboardMarkup",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "InlineKeyboardButton",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "ReplyKeyboardMarkup",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "KeyboardButton",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "BufferedInputFile",
+        "importPath": "aiogram.types",
+        "description": "aiogram.types",
+        "isExtraImport": true,
+        "detail": "aiogram.types",
+        "documentation": {}
+    },
+    {
+        "label": "Command",
+        "importPath": "aiogram.filters",
+        "description": "aiogram.filters",
+        "isExtraImport": true,
+        "detail": "aiogram.filters",
+        "documentation": {}
+    },
+    {
+        "label": "StateFilter",
+        "importPath": "aiogram.filters",
+        "description": "aiogram.filters",
+        "isExtraImport": true,
+        "detail": "aiogram.filters",
+        "documentation": {}
+    },
+    {
+        "label": "FSMContext",
+        "importPath": "aiogram.fsm.context",
+        "description": "aiogram.fsm.context",
+        "isExtraImport": true,
+        "detail": "aiogram.fsm.context",
+        "documentation": {}
+    },
+    {
+        "label": "State",
+        "importPath": "aiogram.fsm.state",
+        "description": "aiogram.fsm.state",
+        "isExtraImport": true,
+        "detail": "aiogram.fsm.state",
+        "documentation": {}
+    },
+    {
+        "label": "StatesGroup",
+        "importPath": "aiogram.fsm.state",
+        "description": "aiogram.fsm.state",
+        "isExtraImport": true,
+        "detail": "aiogram.fsm.state",
+        "documentation": {}
+    },
+    {
+        "label": "Fernet",
+        "importPath": "cryptography.fernet",
+        "description": "cryptography.fernet",
+        "isExtraImport": true,
+        "detail": "cryptography.fernet",
+        "documentation": {}
+    },
+    {
+        "label": "translations",
+        "importPath": "translations",
+        "description": "translations",
+        "isExtraImport": true,
+        "detail": "translations",
+        "documentation": {}
+    },
+    {
+        "label": "arabic_reshaper",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "arabic_reshaper",
+        "description": "arabic_reshaper",
+        "detail": "arabic_reshaper",
+        "documentation": {}
+    },
+    {
+        "label": "get_display",
+        "importPath": "bidi.algorithm",
+        "description": "bidi.algorithm",
+        "isExtraImport": true,
+        "detail": "bidi.algorithm",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "jdatetime",
+        "description": "jdatetime",
+        "isExtraImport": true,
+        "detail": "jdatetime",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "UserStates",
+        "kind": 6,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "class UserStates(StatesGroup):\n    SELECT_LANGUAGE = State()\n    PURCHASE_TYPE = State()\n    PURCHASE_FOR = State()\n    ENTER_OTHER_PHONE = State()\n    ENTER_PHONE_NUMBER = State()\n    PURCHASE_CONFIRM = State()\n    CONFIRM_PHOTO = State()\n    VERIFY_BANK_CARD = State()\n    CONFIRM_BANK_CARD = State()",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "AdminStates",
+        "kind": 6,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "class AdminStates(StatesGroup):\n    SET_PRICE = State()\n    BROADCAST_MESSAGE = State()\n    MANAGE_PLANS = State()\n    SET_NEW_PLAN_NAME = State()\n    SET_NEW_PLAN_PRICE = State()\n    EDIT_BUTTONS = State()\n    SET_BUTTON_TEXT = State()\n    MANAGE_VERIFICATIONS = State()\n    ENTER_REJECT_REASON = State()",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "init_sqlite_db",
+        "kind": 2,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "def init_sqlite_db():\n    conn = sqlite3.connect(DB_FILE)\n    cursor = conn.cursor()\n    cursor.execute('''\n        CREATE TABLE IF NOT EXISTS users (\n            user_id TEXT PRIMARY KEY,\n            username TEXT,\n            first_start_time TEXT,\n            last_start_time TEXT\n        )",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "BOT_TOKEN",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "BOT_TOKEN = os.getenv(\"BOT_TOKEN\")\nCHANNEL_ID = os.getenv(\"CHANNEL_ID\")\nMERCHANT_ID = os.getenv(\"MERCHANT_ID\")\nEXCHANGE_API_URL = os.getenv(\"EXCHANGE_API_URL\")\nFRAGMENT_API_URL = os.getenv(\"FRAGMENT_API_URL\")\nNOBITEX_API_KEY = os.getenv(\"NOBITEX_API_KEY\")\nSUPPORT_CHAT = os.getenv(\"SUPPORT_CHAT\")\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\"))",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "CHANNEL_ID",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "CHANNEL_ID = os.getenv(\"CHANNEL_ID\")\nMERCHANT_ID = os.getenv(\"MERCHANT_ID\")\nEXCHANGE_API_URL = os.getenv(\"EXCHANGE_API_URL\")\nFRAGMENT_API_URL = os.getenv(\"FRAGMENT_API_URL\")\nNOBITEX_API_KEY = os.getenv(\"NOBITEX_API_KEY\")\nSUPPORT_CHAT = os.getenv(\"SUPPORT_CHAT\")\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\"))\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "MERCHANT_ID",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "MERCHANT_ID = os.getenv(\"MERCHANT_ID\")\nEXCHANGE_API_URL = os.getenv(\"EXCHANGE_API_URL\")\nFRAGMENT_API_URL = os.getenv(\"FRAGMENT_API_URL\")\nNOBITEX_API_KEY = os.getenv(\"NOBITEX_API_KEY\")\nSUPPORT_CHAT = os.getenv(\"SUPPORT_CHAT\")\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\"))\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nJWT_SECRET = os.getenv(\"JWT_SECRET\")",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "EXCHANGE_API_URL",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "EXCHANGE_API_URL = os.getenv(\"EXCHANGE_API_URL\")\nFRAGMENT_API_URL = os.getenv(\"FRAGMENT_API_URL\")\nNOBITEX_API_KEY = os.getenv(\"NOBITEX_API_KEY\")\nSUPPORT_CHAT = os.getenv(\"SUPPORT_CHAT\")\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\"))\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nJWT_SECRET = os.getenv(\"JWT_SECRET\")\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "FRAGMENT_API_URL",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "FRAGMENT_API_URL = os.getenv(\"FRAGMENT_API_URL\")\nNOBITEX_API_KEY = os.getenv(\"NOBITEX_API_KEY\")\nSUPPORT_CHAT = os.getenv(\"SUPPORT_CHAT\")\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\"))\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nJWT_SECRET = os.getenv(\"JWT_SECRET\")\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = os.getenv(\"BANK_CARD_NUMBER\")",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "NOBITEX_API_KEY",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "NOBITEX_API_KEY = os.getenv(\"NOBITEX_API_KEY\")\nSUPPORT_CHAT = os.getenv(\"SUPPORT_CHAT\")\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\"))\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nJWT_SECRET = os.getenv(\"JWT_SECRET\")\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = os.getenv(\"BANK_CARD_NUMBER\")\nDB_FILE = os.getenv(\"DB_FILE\")",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "SUPPORT_CHAT",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "SUPPORT_CHAT = os.getenv(\"SUPPORT_CHAT\")\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\"))\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nJWT_SECRET = os.getenv(\"JWT_SECRET\")\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = os.getenv(\"BANK_CARD_NUMBER\")\nDB_FILE = os.getenv(\"DB_FILE\")\n# Initialize logging",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "WEBHOOK_URL",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "WEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\"))\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nJWT_SECRET = os.getenv(\"JWT_SECRET\")\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = os.getenv(\"BANK_CARD_NUMBER\")\nDB_FILE = os.getenv(\"DB_FILE\")\n# Initialize logging\nlogging.basicConfig(",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "REDIS_HOST",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "REDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\"))\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nJWT_SECRET = os.getenv(\"JWT_SECRET\")\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = os.getenv(\"BANK_CARD_NUMBER\")\nDB_FILE = os.getenv(\"DB_FILE\")\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "REDIS_PORT",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "REDIS_PORT = int(os.getenv(\"REDIS_PORT\"))\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nJWT_SECRET = os.getenv(\"JWT_SECRET\")\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = os.getenv(\"BANK_CARD_NUMBER\")\nDB_FILE = os.getenv(\"DB_FILE\")\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "ENCRYPTION_KEY",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "ENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nJWT_SECRET = os.getenv(\"JWT_SECRET\")\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = os.getenv(\"BANK_CARD_NUMBER\")\nDB_FILE = os.getenv(\"DB_FILE\")\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "JWT_SECRET",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "JWT_SECRET = os.getenv(\"JWT_SECRET\")\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = os.getenv(\"BANK_CARD_NUMBER\")\nDB_FILE = os.getenv(\"DB_FILE\")\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "INITIAL_ADMIN_ID",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "INITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = os.getenv(\"BANK_CARD_NUMBER\")\nDB_FILE = os.getenv(\"DB_FILE\")\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),\n        logging.StreamHandler()",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "BANK_CARD_NUMBER",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "BANK_CARD_NUMBER = os.getenv(\"BANK_CARD_NUMBER\")\nDB_FILE = os.getenv(\"DB_FILE\")\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),\n        logging.StreamHandler()\n    ]",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "DB_FILE",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "DB_FILE = os.getenv(\"DB_FILE\")\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),\n        logging.StreamHandler()\n    ]\n)",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "logger = logging.getLogger(__name__)\n# Initialize Redis client\nredis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)\nlogger.info(f\"Redis client initialized with host={REDIS_HOST}, port={REDIS_PORT}\")\n# Initialize SQLite database\ndef init_sqlite_db():\n    conn = sqlite3.connect(DB_FILE)\n    cursor = conn.cursor()\n    cursor.execute('''\n        CREATE TABLE IF NOT EXISTS users (",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "redis_client",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)\nlogger.info(f\"Redis client initialized with host={REDIS_HOST}, port={REDIS_PORT}\")\n# Initialize SQLite database\ndef init_sqlite_db():\n    conn = sqlite3.connect(DB_FILE)\n    cursor = conn.cursor()\n    cursor.execute('''\n        CREATE TABLE IF NOT EXISTS users (\n            user_id TEXT PRIMARY KEY,\n            username TEXT,",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "storage",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "storage = RedisStorage(redis=redis_client)\nlogger.info(\"RedisStorage initialized\")\nbot = Bot(token=BOT_TOKEN)\nlogger.info(\"Bot initialized with token\")\ndp = Dispatcher(storage=storage)\nlogger.info(\"Dispatcher initialized\")\nrouter = Router()\ndp.include_router(router)\nlogger.info(\"Router included in dispatcher\")\ncipher = Fernet(ENCRYPTION_KEY)",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "bot",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "bot = Bot(token=BOT_TOKEN)\nlogger.info(\"Bot initialized with token\")\ndp = Dispatcher(storage=storage)\nlogger.info(\"Dispatcher initialized\")\nrouter = Router()\ndp.include_router(router)\nlogger.info(\"Router included in dispatcher\")\ncipher = Fernet(ENCRYPTION_KEY)\nlogger.info(\"Fernet cipher initialized\")\n# States",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "dp",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "dp = Dispatcher(storage=storage)\nlogger.info(\"Dispatcher initialized\")\nrouter = Router()\ndp.include_router(router)\nlogger.info(\"Router included in dispatcher\")\ncipher = Fernet(ENCRYPTION_KEY)\nlogger.info(\"Fernet cipher initialized\")\n# States\nclass UserStates(StatesGroup):\n    SELECT_LANGUAGE = State()",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "router = Router()\ndp.include_router(router)\nlogger.info(\"Router included in dispatcher\")\ncipher = Fernet(ENCRYPTION_KEY)\nlogger.info(\"Fernet cipher initialized\")\n# States\nclass UserStates(StatesGroup):\n    SELECT_LANGUAGE = State()\n    PURCHASE_TYPE = State()\n    PURCHASE_FOR = State()",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "cipher",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "cipher = Fernet(ENCRYPTION_KEY)\nlogger.info(\"Fernet cipher initialized\")\n# States\nclass UserStates(StatesGroup):\n    SELECT_LANGUAGE = State()\n    PURCHASE_TYPE = State()\n    PURCHASE_FOR = State()\n    ENTER_OTHER_PHONE = State()\n    ENTER_PHONE_NUMBER = State()\n    PURCHASE_CONFIRM = State()",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "PREMIUM_PRICES",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "PREMIUM_PRICES = {}\nSTARS_PRICES = {}\nasync def load_prices():\n    global PREMIUM_PRICES, STARS_PRICES\n    PREMIUM_PRICES = {}\n    STARS_PRICES = {}\n    logger.info(\"Loading prices from SQLite\")\n    conn = sqlite3.connect(DB_FILE)\n    cursor = conn.cursor()\n    cursor.execute('SELECT plan_type, plan_name, price FROM plans')",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "STARS_PRICES",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "STARS_PRICES = {}\nasync def load_prices():\n    global PREMIUM_PRICES, STARS_PRICES\n    PREMIUM_PRICES = {}\n    STARS_PRICES = {}\n    logger.info(\"Loading prices from SQLite\")\n    conn = sqlite3.connect(DB_FILE)\n    cursor = conn.cursor()\n    cursor.execute('SELECT plan_type, plan_name, price FROM plans')\n    plans = cursor.fetchall()",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "translations",
+        "kind": 5,
+        "importPath": "translations",
+        "description": "translations",
+        "peekOfCode": "translations = {\n    \"en\": {\n        \"rate_limit\": \"Please wait a moment before trying again.\",\n        \"invalid_referral_id\": \"Invalid referral ID.\",\n        \"welcome\": \"Welcome, {name}! How can I help you today?\",\n        \"welcome_image\": \"Hello, {name}!\",\n        \"select_language\": \"Please select your language:\",\n        \"language_changed\": \"Language changed successfully!\",\n        \"guide\": \"Guide\",\n        \"guide_content\": \"This is a guide on how to use the bot. Step 1: ...\",",
+        "detail": "translations",
+        "documentation": {}
+    }
+]
