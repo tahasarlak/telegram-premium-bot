@@ -20,6 +20,20 @@ from translations import translations
 import arabic_reshaper
 from bidi.algorithm import get_display
 from jdatetime import datetime as jdatetime
+import redis.asyncio as redis
+
+REDIS_HOST = os.getenv("REDIS_HOST", "redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com")
+REDIS_PORT = int(os.getenv("REDIS_PORT", 13206))
+REDIS_USERNAME = os.getenv("REDIS_USERNAME", "default")
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "aBYRaTdeRkECvVMyqVFs6macSGSwCBEV")
+
+redis_client = redis.Redis(
+    host=REDIS_HOST,
+    port=REDIS_PORT,
+    username=REDIS_USERNAME,
+    password=REDIS_PASSWORD,
+    decode_responses=True
+)
 # Configuration
 BOT_TOKEN = "7957011724:AAEopNeu5qiO0tlM9kYNXdyUAhZUa8ypJnE"
 CHANNEL_ID = "@FyrenPremium"
@@ -29,9 +43,6 @@ FRAGMENT_API_URL = "https://fragment.com/api"
 NOBITEX_API_KEY = "YOUR_NOBITEX_API_KEY"
 SUPPORT_CHAT = "https://t.me/ownerpremiland"
 WEBHOOK_URL = "YOUR_WEBHOOK_URL"
-REDIS_HOST = "redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com"
-REDIS_PORT = 13206
-REDIS_PASSWORD = "aBYRaTdeRkECvVMyqVFs6macSGSwCBEV"
 ENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='
 JWT_SECRET = "your_jwt_secret_key_very_secure"
 INITIAL_ADMIN_ID = "8327717833"
