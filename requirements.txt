@@ -7,4 +7,3 @@ arabic-reshaper==3.0.0
 python-bidi==0.4.2
 jdatetime==4.1.1
 sqlite3
-python-dotenv==1.0.1

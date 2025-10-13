@@ -21,24 +21,22 @@ import arabic_reshaper
 from bidi.algorithm import get_display
 from jdatetime import datetime as jdatetime
 # Configuration
-from dotenv import load_dotenv
-
-load_dotenv()
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHANNEL_ID = os.getenv("CHANNEL_ID")
-MERCHANT_ID = os.getenv("MERCHANT_ID")
-EXCHANGE_API_URL = os.getenv("EXCHANGE_API_URL")
-FRAGMENT_API_URL = os.getenv("FRAGMENT_API_URL")
-NOBITEX_API_KEY = os.getenv("NOBITEX_API_KEY")
-SUPPORT_CHAT = os.getenv("SUPPORT_CHAT")
-WEBHOOK_URL = os.getenv("WEBHOOK_URL")
-REDIS_HOST = os.getenv("REDIS_HOST")
-REDIS_PORT = int(os.getenv("REDIS_PORT"))
-ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY").encode()
-JWT_SECRET = os.getenv("JWT_SECRET")
-INITIAL_ADMIN_ID = os.getenv("INITIAL_ADMIN_ID")
-BANK_CARD_NUMBER = os.getenv("BANK_CARD_NUMBER")
-DB_FILE = os.getenv("DB_FILE")
+BOT_TOKEN = "7957011724:AAEopNeu5qiO0tlM9kYNXdyUAhZUa8ypJnE"
+CHANNEL_ID = "@FyrenPremium"
+MERCHANT_ID = "YOUR_ZARINPAL_MERCHANT_ID"
+EXCHANGE_API_URL = "https://api.nobitex.ir/v2/orderbook/TRXIRT"
+FRAGMENT_API_URL = "https://fragment.com/api"
+NOBITEX_API_KEY = "YOUR_NOBITEX_API_KEY"
+SUPPORT_CHAT = "https://t.me/ownerpremiland"
+WEBHOOK_URL = "YOUR_WEBHOOK_URL"
+REDIS_HOST = "localhost"
+REDIS_PORT = 6379
+ENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='
+JWT_SECRET = "your_jwt_secret_key_very_secure"
+INITIAL_ADMIN_ID = "8327717833"
+BANK_CARD_IMAGE = "bank_card_image.jpg"
+BANK_CARD_NUMBER = "YOUR_BANK_CARD_NUMBER"
+DB_FILE = "bot_database.db"
 
 # Initialize logging
 logging.basicConfig(
