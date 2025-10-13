@@ -307,83 +307,11 @@
         "documentation": {}
     },
     {
-        "label": "BOT_TOKEN",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "BOT_TOKEN = \"7957011724:AAEopNeu5qiO0tlM9kYNXdyUAhZUa8ypJnE\"\nCHANNEL_ID = \"@FyrenPremium\"\nMERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nREDIS_HOST = \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\"\nREDIS_PORT = 13206",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "CHANNEL_ID",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "CHANNEL_ID = \"@FyrenPremium\"\nMERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nREDIS_HOST = \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\"\nREDIS_PORT = 13206\nREDIS_PASSWORD = \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "MERCHANT_ID",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "MERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nREDIS_HOST = \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\"\nREDIS_PORT = 13206\nREDIS_PASSWORD = \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "EXCHANGE_API_URL",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "EXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nREDIS_HOST = \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\"\nREDIS_PORT = 13206\nREDIS_PASSWORD = \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "FRAGMENT_API_URL",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "FRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nREDIS_HOST = \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\"\nREDIS_PORT = 13206\nREDIS_PASSWORD = \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "NOBITEX_API_KEY",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "NOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nREDIS_HOST = \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\"\nREDIS_PORT = 13206\nREDIS_PASSWORD = \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "SUPPORT_CHAT",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "SUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nREDIS_HOST = \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\"\nREDIS_PORT = 13206\nREDIS_PASSWORD = \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "WEBHOOK_URL",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "WEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nREDIS_HOST = \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\"\nREDIS_PORT = 13206\nREDIS_PASSWORD = \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
         "label": "REDIS_HOST",
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "REDIS_HOST = \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\"\nREDIS_PORT = 13206\nREDIS_PASSWORD = \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging",
+        "peekOfCode": "REDIS_HOST = os.getenv(\"REDIS_HOST\", \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\", \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\")\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -392,7 +320,16 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "REDIS_PORT = 13206\nREDIS_PASSWORD = \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(",
+        "peekOfCode": "REDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\", \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\")\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "REDIS_USERNAME",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "REDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\", \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\")\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\n# Configuration",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -401,7 +338,88 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "REDIS_PASSWORD = \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,",
+        "peekOfCode": "REDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\", \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\")\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\n# Configuration\nBOT_TOKEN = \"7957011724:AAEopNeu5qiO0tlM9kYNXdyUAhZUa8ypJnE\"",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "redis_client",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "redis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\n# Configuration\nBOT_TOKEN = \"7957011724:AAEopNeu5qiO0tlM9kYNXdyUAhZUa8ypJnE\"\nCHANNEL_ID = \"@FyrenPremium\"",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "BOT_TOKEN",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "BOT_TOKEN = \"7957011724:AAEopNeu5qiO0tlM9kYNXdyUAhZUa8ypJnE\"\nCHANNEL_ID = \"@FyrenPremium\"\nMERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "CHANNEL_ID",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "CHANNEL_ID = \"@FyrenPremium\"\nMERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "MERCHANT_ID",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "MERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "EXCHANGE_API_URL",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "EXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "FRAGMENT_API_URL",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "FRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "NOBITEX_API_KEY",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "NOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "SUPPORT_CHAT",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "SUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "WEBHOOK_URL",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "WEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,",
         "detail": "telegram_bot",
         "documentation": {}
     },
