@@ -482,16 +482,7 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "logger = logging.getLogger(__name__)\n# Initialize Redis client\nredis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)\nlogger.info(f\"Redis client initialized with host={REDIS_HOST}, port={REDIS_PORT}\")\n# Initialize SQLite database\ndef init_sqlite_db():\n    conn = sqlite3.connect(DB_FILE)\n    cursor = conn.cursor()\n    cursor.execute('''\n        CREATE TABLE IF NOT EXISTS users (",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "redis_client",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)\nlogger.info(f\"Redis client initialized with host={REDIS_HOST}, port={REDIS_PORT}\")\n# Initialize SQLite database\ndef init_sqlite_db():\n    conn = sqlite3.connect(DB_FILE)\n    cursor = conn.cursor()\n    cursor.execute('''\n        CREATE TABLE IF NOT EXISTS users (\n            user_id TEXT PRIMARY KEY,\n            username TEXT,",
+        "peekOfCode": "logger = logging.getLogger(__name__)\n# Initialize Redis client\n# Initialize SQLite database\ndef init_sqlite_db():\n    conn = sqlite3.connect(DB_FILE)\n    cursor = conn.cursor()\n    cursor.execute('''\n        CREATE TABLE IF NOT EXISTS users (\n            user_id TEXT PRIMARY KEY,\n            username TEXT,",
         "detail": "telegram_bot",
         "documentation": {}
     },

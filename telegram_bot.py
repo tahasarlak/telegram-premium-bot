@@ -62,8 +62,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Initialize Redis client
-redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
-logger.info(f"Redis client initialized with host={REDIS_HOST}, port={REDIS_PORT}")
 
 # Initialize SQLite database
 def init_sqlite_db():
