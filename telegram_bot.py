@@ -35,7 +35,7 @@ redis_client = redis.Redis(
     decode_responses=True
 )
 # Configuration
-BOT_TOKEN = "7957011724:AAEopNeu5qiO0tlM9kYNXdyUAhZUa8ypJnE"
+BOT_TOKEN = "7957011724:AAHUpy7XbvDyL9PNBA5gnc83GbFy4cgGVZk"
 CHANNEL_ID = "@FyrenPremium"
 MERCHANT_ID = "YOUR_ZARINPAL_MERCHANT_ID"
 EXCHANGE_API_URL = "https://api.nobitex.ir/v2/orderbook/TRXIRT"

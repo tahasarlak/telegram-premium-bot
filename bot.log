@@ -1,0 +1,104 @@
+2025-10-13 03:59:06,638 - INFO - Redis client initialized with host=redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com, port=13206
+2025-10-13 03:59:06,664 - INFO - SQLite database initialized with plans table
+2025-10-13 03:59:06,665 - INFO - RedisStorage initialized
+2025-10-13 03:59:06,673 - INFO - Bot initialized with token
+2025-10-13 03:59:06,674 - INFO - Dispatcher initialized
+2025-10-13 03:59:06,674 - INFO - Router included in dispatcher
+2025-10-13 03:59:06,674 - INFO - Fernet cipher initialized
+2025-10-13 03:59:06,678 - DEBUG - Using proactor: IocpProactor
+2025-10-13 03:59:06,679 - INFO - Loading prices from SQLite
+2025-10-13 03:59:06,681 - DEBUG - Loaded premium:1month = 500000
+2025-10-13 03:59:06,681 - DEBUG - Loaded premium:3month = 1350000
+2025-10-13 03:59:06,681 - DEBUG - Loaded premium:6month = 2500000
+2025-10-13 03:59:06,681 - DEBUG - Loaded stars:10stars = 100000
+2025-10-13 03:59:06,681 - DEBUG - Loaded stars:50stars = 450000
+2025-10-13 03:59:06,682 - DEBUG - Loaded stars:100stars = 850000
+2025-10-13 03:59:06,682 - INFO - Prices loaded: Premium={'1month': 500000, '3month': 1350000, '6month': 2500000}, Stars={'10stars': 100000, '50stars': 450000, '100stars': 850000}
+2025-10-13 03:59:06,682 - INFO - Start polling
+2025-10-13 03:59:06,888 - INFO - Run polling for bot @FyrenPremiumBot id=7957011724 - 'Fyren Premium'
+2025-10-13 03:59:10,422 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 03:59:10,423 - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 7957011724)
+2025-10-13 03:59:14,122 - INFO - Connection established (tryings = 1, bot id = 7957011724)
+2025-10-13 03:59:14,258 - INFO - Update id=71022468 is not handled. Duration 140 ms by bot id=7957011724
+2025-10-13 03:59:14,259 - ERROR - Cause exception while process update id=71022468 by bot id=7957011724
+AuthenticationError: Authentication required
+Traceback (most recent call last):
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\aiogram\dispatcher\dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\aiogram\dispatcher\dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 56, in __call__
+    return await handler(event, data)
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\aiogram\fsm\middleware.py", line 41, in __call__
+    data.update({"state": context, "raw_state": await context.get_state()})
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\aiogram\fsm\context.py", line 15, in get_state
+    return await self.storage.get_state(key=self.key)
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\aiogram\fsm\storage\redis.py", line 99, in get_state
+    value = await self.redis.get(redis_key)
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\redis\asyncio\client.py", line 672, in execute_command
+    conn = self.connection or await pool.get_connection()
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\redis\asyncio\connection.py", line 1149, in get_connection
+    await self.ensure_connection(connection)
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\redis\asyncio\connection.py", line 1182, in ensure_connection
+    await connection.connect()
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\redis\asyncio\connection.py", line 296, in connect
+    await self.connect_check_health(check_health=True)
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\redis\asyncio\connection.py", line 322, in connect_check_health
+    await self.on_connect_check_health(check_health=check_health)
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\redis\asyncio\connection.py", line 463, in on_connect_check_health
+    await self.read_response()
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\redis\asyncio\connection.py", line 599, in read_response
+    response = await self._parser.read_response(
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\redis\_parsers\resp2.py", line 82, in read_response
+    response = await self._read_response(disable_decoding=disable_decoding)
+  File "C:\Users\taha\AppData\Local\Programs\Python\Python310\lib\site-packages\redis\_parsers\resp2.py", line 102, in _read_response
+    raise error
+redis.exceptions.AuthenticationError: Authentication required
+2025-10-13 03:59:14,788 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 03:59:14,789 - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 7957011724)
+2025-10-13 03:59:19,479 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 03:59:19,479 - WARNING - Sleep for 1.234751 seconds and try again... (tryings = 1, bot id = 7957011724)
+2025-10-13 03:59:22,745 - INFO - Polling stopped for bot @FyrenPremiumBot id=7957011724 - 'Fyren Premium'
+2025-10-13 03:59:22,745 - INFO - Polling stopped
+2025-10-13 03:59:22,997 - INFO - Bot session closed
+2025-10-13 04:04:05,613 - INFO - Redis client initialized with host=redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com, port=13206
+2025-10-13 04:04:05,620 - INFO - SQLite database initialized with plans table
+2025-10-13 04:04:05,620 - INFO - RedisStorage initialized
+2025-10-13 04:04:05,630 - INFO - Bot initialized with token
+2025-10-13 04:04:05,631 - INFO - Dispatcher initialized
+2025-10-13 04:04:05,632 - INFO - Router included in dispatcher
+2025-10-13 04:04:05,632 - INFO - Fernet cipher initialized
+2025-10-13 04:04:05,637 - DEBUG - Using proactor: IocpProactor
+2025-10-13 04:04:05,639 - INFO - Loading prices from SQLite
+2025-10-13 04:04:05,640 - DEBUG - Loaded premium:1month = 500000
+2025-10-13 04:04:05,641 - DEBUG - Loaded premium:3month = 1350000
+2025-10-13 04:04:05,641 - DEBUG - Loaded premium:6month = 2500000
+2025-10-13 04:04:05,641 - DEBUG - Loaded stars:10stars = 100000
+2025-10-13 04:04:05,641 - DEBUG - Loaded stars:50stars = 450000
+2025-10-13 04:04:05,642 - DEBUG - Loaded stars:100stars = 850000
+2025-10-13 04:04:05,642 - INFO - Prices loaded: Premium={'1month': 500000, '3month': 1350000, '6month': 2500000}, Stars={'10stars': 100000, '50stars': 450000, '100stars': 850000}
+2025-10-13 04:04:05,642 - INFO - Start polling
+2025-10-13 04:04:05,871 - INFO - Run polling for bot @FyrenPremiumBot id=7957011724 - 'Fyren Premium'
+2025-10-13 04:04:11,629 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 04:04:11,630 - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 7957011724)
+2025-10-13 04:04:17,245 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 04:04:17,246 - WARNING - Sleep for 1.408612 seconds and try again... (tryings = 1, bot id = 7957011724)
+2025-10-13 04:04:21,720 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 04:04:21,721 - WARNING - Sleep for 1.779655 seconds and try again... (tryings = 2, bot id = 7957011724)
+2025-10-13 04:04:26,749 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 04:04:26,749 - WARNING - Sleep for 2.310862 seconds and try again... (tryings = 3, bot id = 7957011724)
+2025-10-13 04:04:31,492 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 04:04:31,492 - WARNING - Sleep for 2.829327 seconds and try again... (tryings = 4, bot id = 7957011724)
+2025-10-13 04:04:37,304 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 04:04:37,304 - WARNING - Sleep for 3.486546 seconds and try again... (tryings = 5, bot id = 7957011724)
+2025-10-13 04:04:45,513 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 04:04:45,514 - WARNING - Sleep for 4.491866 seconds and try again... (tryings = 6, bot id = 7957011724)
+2025-10-13 04:04:54,137 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 04:04:54,137 - WARNING - Sleep for 4.858744 seconds and try again... (tryings = 7, bot id = 7957011724)
+2025-10-13 04:05:03,204 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-13 04:05:03,205 - WARNING - Sleep for 4.960500 seconds and try again... (tryings = 8, bot id = 7957011724)
+2025-10-13 04:05:06,888 - INFO - Polling stopped for bot @FyrenPremiumBot id=7957011724 - 'Fyren Premium'
+2025-10-13 04:05:06,888 - INFO - Polling stopped
+2025-10-13 04:05:07,143 - INFO - Bot session closed

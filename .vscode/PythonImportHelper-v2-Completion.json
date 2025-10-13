@@ -338,7 +338,7 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "REDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\", \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\")\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\n# Configuration\nBOT_TOKEN = \"7957011724:AAEopNeu5qiO0tlM9kYNXdyUAhZUa8ypJnE\"",
+        "peekOfCode": "REDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\", \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\")\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\n# Configuration\nBOT_TOKEN = \"7957011724:AAHUpy7XbvDyL9PNBA5gnc83GbFy4cgGVZk\"",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -347,7 +347,7 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "redis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\n# Configuration\nBOT_TOKEN = \"7957011724:AAEopNeu5qiO0tlM9kYNXdyUAhZUa8ypJnE\"\nCHANNEL_ID = \"@FyrenPremium\"",
+        "peekOfCode": "redis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\n# Configuration\nBOT_TOKEN = \"7957011724:AAHUpy7XbvDyL9PNBA5gnc83GbFy4cgGVZk\"\nCHANNEL_ID = \"@FyrenPremium\"",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -356,7 +356,7 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "BOT_TOKEN = \"7957011724:AAEopNeu5qiO0tlM9kYNXdyUAhZUa8ypJnE\"\nCHANNEL_ID = \"@FyrenPremium\"\nMERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"",
+        "peekOfCode": "BOT_TOKEN = \"7957011724:AAHUpy7XbvDyL9PNBA5gnc83GbFy4cgGVZk\"\nCHANNEL_ID = \"@FyrenPremium\"\nMERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"",
         "detail": "telegram_bot",
         "documentation": {}
     },
