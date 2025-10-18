@@ -21,36 +21,22 @@ import arabic_reshaper
 from bidi.algorithm import get_display
 from jdatetime import datetime as jdatetime
 import redis.asyncio as redis
-
-REDIS_HOST = os.getenv("REDIS_HOST", "redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com")
-REDIS_PORT = int(os.getenv("REDIS_PORT", 13206))
-REDIS_USERNAME = os.getenv("REDIS_USERNAME", "default")
-REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "aBYRaTdeRkECvVMyqVFs6macSGSwCBEV")
-
-redis_client = redis.Redis(
-    host=REDIS_HOST,
-    port=REDIS_PORT,
-    username=REDIS_USERNAME,
-    password=REDIS_PASSWORD,
-    decode_responses=True
-)
-# Configuration
-BOT_TOKEN = "7957011724:AAEw6DmIP7Mtu81O3zWFYaBi04NMLz_ftzc"
+from dotenv import load_dotenv
+load_dotenv()  
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHANNEL_ID = "@FyrenPremium"
-MERCHANT_ID = "YOUR_ZARINPAL_MERCHANT_ID"
-EXCHANGE_API_URL = "https://api.nobitex.ir/v2/orderbook/TRXIRT"
-FRAGMENT_API_URL = "https://fragment.com/api"
-NOBITEX_API_KEY = "YOUR_NOBITEX_API_KEY"
 SUPPORT_CHAT = "https://t.me/ownerpremiland"
-WEBHOOK_URL = "YOUR_WEBHOOK_URL"
-ENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='
-JWT_SECRET = "your_jwt_secret_key_very_secure"
-INITIAL_ADMIN_ID = "8327717833"
-BANK_CARD_IMAGE = "bank_card_image.jpg"
-BANK_CARD_NUMBER = "YOUR_BANK_CARD_NUMBER"
+ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY").encode()
+INITIAL_ADMIN_ID = os.getenv("INITIAL_ADMIN_ID")
+BANK_CARD_NUMBER = "5859_8311_0309_4008"
 DB_FILE = "bot_database.db"
 
-# Initialize logging
+REDIS_HOST = os.getenv("REDIS_HOST")
+REDIS_PORT = int(os.getenv("REDIS_PORT", 13206))
+REDIS_USERNAME = os.getenv("REDIS_USERNAME", "default")
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
+
+# ✅ Logging اول! - خط ۴۵-۵۲
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -61,7 +47,15 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Initialize Redis client
+# ✅ Redis Client کامل - خط ۵۰-۵۵
+redis_client = redis.Redis(
+    host=REDIS_HOST,
+    port=REDIS_PORT,
+    username=REDIS_USERNAME,
+    password=REDIS_PASSWORD,
+    decode_responses=True
+)
+logger.info("Redis client initialized")
 
 # Initialize SQLite database
 def init_sqlite_db():
@@ -504,7 +498,6 @@ async def get_admin_menu(lang="fa"):
             translations[lang]["broadcast_message"],
             translations[lang]["view_stats"],
             translations[lang]["backup_database"],
-            translations[lang]["edit_main_menu"],
             translations[lang]["back"]
         ]
         await redis_client.delete(f"admin_menu:{lang}")
@@ -536,28 +529,29 @@ async def view_user_data(message: types.Message, state: FSMContext):
         await message.reply(translations[lang]["rate_limit"])
         return
     lang = await get_user_language(user_id)
-    
+   
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute('SELECT user_id, username FROM users')
     users = cursor.fetchall()
     conn.close()
-    
+   
     if not users:
         await message.reply(translations[lang]["no_users"])
         return
-    
+   
     keyboard_rows = []
     for user_id, user_name in users[:10]:
         keyboard_rows.append([InlineKeyboardButton(
             text=f"{user_name} ({user_id})",
             callback_data=f"view_user_details_{user_id}"
         )])
-    keyboard_rows.append([InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_admin")])
-    
+    # ❌ دکمه بازگشت حذف شد
+   
     keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard_rows)
     await message.reply(translations[lang]["select_user_to_view"], reply_markup=keyboard)
     await state.set_state(AdminStates.VIEW_USER_DATA)
+
 
 @router.callback_query(StateFilter(AdminStates.VIEW_USER_DATA), F.data.startswith("view_user_details_"))
 async def view_user_details(callback_query: types.CallbackQuery, state: FSMContext):
@@ -686,6 +680,9 @@ async def view_user_details(callback_query: types.CallbackQuery, state: FSMConte
     await state.set_state(AdminStates.VIEW_USER_DETAILS)
     await state.update_data(target_user_id=target_user_id)
     logger.info(f"Displayed user details for {target_user_id} to admin {admin_id}")
+
+
+
 @router.callback_query(StateFilter(AdminStates.VIEW_USER_DETAILS), F.data.startswith("view_bank_card_photo_"))
 async def view_bank_card_photo(callback_query: types.CallbackQuery, state: FSMContext):
     admin_id = str(callback_query.from_user.id)
@@ -707,8 +704,8 @@ async def view_bank_card_photo(callback_query: types.CallbackQuery, state: FSMCo
     }.get(bank_data["status"], "نامشخص")
     reject_reason = bank_data.get("reject_reason", "ندارد")
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=translations[lang]["back"], callback_data=f"view_user_details_{target_user_id}")]
-    ])
+    [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_user_data")]
+])
     await callback_query.message.edit_text(
         f"تصویر کارت بانکی کاربر {target_user_id}\nشماره تلفن: {bank_data['phone_number']}\nوضعیت: {status_text}\nدلیل رد: {reject_reason}\nزمان: {timestamp}",
         reply_markup=keyboard
@@ -727,21 +724,21 @@ async def view_receipt(callback_query: types.CallbackQuery, state: FSMContext):
         await callback_query.message.edit_text(
             translations[lang]["invalid_action"],
             reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_admin")]
+                [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_user_data")]
             ])
         )
         return
-
-    logger.debug(f"Processing view_receipt for user {target_user_id}, timestamp: {timestamp}")
     
+    logger.debug(f"Processing view_receipt for user {target_user_id}, timestamp: {timestamp}")
     receipt_data = await get_receipt_from_db(target_user_id, timestamp)
     logger.debug(f"Receipt data for {target_user_id}:{timestamp}: {receipt_data}")
+    
     if not receipt_data:
         logger.warning(f"No receipt found for user {target_user_id} at {timestamp}")
         await callback_query.message.edit_text(
             translations[lang]["receipt_photo_not_found"],
             reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_admin")]
+                [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_user_data")]
             ])
         )
         return
@@ -756,7 +753,7 @@ async def view_receipt(callback_query: types.CallbackQuery, state: FSMContext):
     reject_reason = receipt_data.get("reject_reason", "ندارد")
     
     # فقط برای فیش‌های در وضعیت pending_admin دکمه‌های تأیید/رد نمایش داده شوند
-    keyboard_buttons = [[InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_verifications")]]
+    keyboard_buttons = [[InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_user_data")]]
     if receipt_data["status"] == "pending_admin":
         keyboard_buttons.insert(0, [
             InlineKeyboardButton(text=translations[lang]["approve_receipt"], callback_data=f"approve_receipt_{target_user_id}:{timestamp}"),
@@ -772,6 +769,7 @@ async def view_receipt(callback_query: types.CallbackQuery, state: FSMContext):
         message_text += "\n(این فیش هنوز توسط کاربر تأیید نشده است و قابل تأیید یا رد نیست.)"
     
     await callback_query.message.edit_text(message_text, reply_markup=keyboard)
+    
     if receipt_data["photo_file_id"]:
         try:
             await bot.send_photo(user_id, photo=receipt_data["photo_file_id"])
@@ -779,8 +777,8 @@ async def view_receipt(callback_query: types.CallbackQuery, state: FSMContext):
         except Exception as e:
             logger.error(f"Error sending receipt photo to admin {user_id}: {str(e)}")
             await callback_query.message.reply(translations[lang]["error_sending_photo"])
-    logger.info(f"Displayed receipt details for user {target_user_id}, timestamp: {timestamp}")
-@router.callback_query(F.data == "back_to_admin")
+    
+    logger.info(f"Displayed receipt details for user {target_user_id}, timestamp: {timestamp}")@router.callback_query(F.data == "back_to_admin")
 async def back_to_admin(callback_query: types.CallbackQuery, state: FSMContext):
     user_id = str(callback_query.from_user.id)
     lang = await get_user_language(user_id)
@@ -800,7 +798,6 @@ async def back_to_admin(callback_query: types.CallbackQuery, state: FSMContext):
             translations[lang]["broadcast_message"],
             translations[lang]["view_stats"],
             translations[lang]["backup_database"],
-            translations[lang]["edit_main_menu"],
             translations[lang]["back"]
         ]
         await redis_client.delete(f"admin_menu:{lang}")
@@ -830,31 +827,112 @@ async def back_to_admin(callback_query: types.CallbackQuery, state: FSMContext):
     await state.clear()
 
 @router.callback_query(StateFilter(AdminStates.VIEW_USER_DETAILS), F.data == "back_to_user_data")
-async def back_to_user_data(callback_query: types.CallbackQuery, state: FSMContext):
+async def back_from_bank_card_photo(callback_query: types.CallbackQuery, state: FSMContext):
     admin_id = str(callback_query.from_user.id)
     lang = await get_user_language(admin_id)
+    data = await state.get_data()
+    target_user_id = data.get("target_user_id")
     
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    cursor.execute('SELECT user_id, username FROM users')
-    users = cursor.fetchall()
-    conn.close()
+    # دریافت اطلاعات کاربر
+    user_info = await get_user_from_db(target_user_id)
+    if not user_info:
+        user_name = target_user_id
+        first_start = last_start = "نامشخص"
+    else:
+        user_name = user_info["username"]
+        first_start = user_info["first_start_time"]
+        last_start = user_info["last_start_time"]
     
-    if not users:
-        await callback_query.message.edit_text(translations[lang]["no_users"])
-        return
+    # دریافت کارت‌های بانکی
+    user_bank_cards = await get_all_bank_cards_for_user(target_user_id)
+    user_receipts = await get_all_receipts_for_user(target_user_id)
+    user_orders = await get_all_orders_for_user(target_user_id)
+    
+    response = (
+        f"اطلاعات کاربر: {user_name} ({target_user_id})\n"
+        f"زمان اولین استارت: {first_start}\n"
+        f"زمان آخرین استارت: {last_start}\n\n"
+    )
+    
+    response += "📞 کارت‌های بانکی:\n"
+    if user_bank_cards:
+        for card in user_bank_cards:
+            status_text = {
+                "pending_user": "در انتظار تأیید کاربر",
+                "pending_admin": "در انتظار تأیید ادمین",
+                "approved": "تأیید شده",
+                "rejected": "رد شده",
+                "canceled": "لغو شده"
+            }.get(card["status"], "نامشخص")
+            response += (
+                f" - زمان: {card['timestamp']}\n"
+                f" شماره تلفن: {card['phone_number']}\n"
+                f" وضعیت: {status_text}\n"
+            )
+            if card["status"] == "rejected":
+                response += f" دلیل رد: {card['reject_reason']}\n"
+            if card["photo_file_id"]:
+                response += f" تصویر کارت: موجود\n"
+    else:
+        response += "هیچ کارت بانکی ثبت نشده است.\n"
+    
+    response += "\n📄 فیش‌های پرداخت:\n"
+    if user_receipts:
+        for receipt in user_receipts:
+            status_text = {
+                "pending_user": "در انتظار تأیید کاربر",
+                "pending_admin": "در انتظار تأیید ادمین",
+                "approved": "تأیید شده",
+                "rejected": "رد شده",
+                "canceled": "لغو شده"
+            }.get(receipt["status"], "نامشخص")
+            response += (
+                f" - زمان: {receipt['timestamp']}\n"
+                f" نوع خرید: {receipt['purchase_type']}\n"
+                f" مبلغ: {receipt['price']:,} IRR\n"
+                f" دسته‌بندی: {receipt['plan_category']}\n"
+                f" وضعیت: {status_text}\n"
+            )
+            if receipt["status"] == "rejected":
+                response += f" دلیل رد: {receipt['reject_reason']}\n"
+            if receipt["photo_file_id"]:
+                response += f" تصویر فیش: موجود\n"
+    else:
+        response += "هیچ فیش پرداختی ثبت نشده است.\n"
+    
+    response += "\n📦 سفارش‌ها:\n"
+    if user_orders:
+        for order in user_orders:
+            response += (
+                f" - زمان: {order['timestamp']}\n"
+                f" نوع خرید: {order['purchase_type']}\n"
+                f" مبلغ: {order['price']:,} IRR\n"
+                f" دسته‌بندی: {order['plan_category']}\n"
+                f" گیرنده: {order['target_id']}\n"
+                f" وضعیت: {order['status']}\n"
+            )
+    else:
+        response += "هیچ سفارشی ثبت نشده است.\n"
     
     keyboard_rows = []
-    for user_id, user_name in users[:10]:
-        keyboard_rows.append([InlineKeyboardButton(
-            text=f"{user_name} ({user_id})",
-            callback_data=f"view_user_details_{user_id}"
-        )])
-    keyboard_rows.append([InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_admin")])
+    for card in user_bank_cards:
+        if card["photo_file_id"]:
+            keyboard_rows.append([InlineKeyboardButton(
+                text=f"تصویر کارت ({card['timestamp']})",
+                callback_data=f"view_bank_card_photo_{target_user_id}:{card['timestamp']}"
+            )])
+    for receipt in user_receipts:
+        if receipt["photo_file_id"]:
+            keyboard_rows.append([InlineKeyboardButton(
+                text=f"تصویر فیش ({receipt['timestamp']})",
+                callback_data=f"view_receipt_{target_user_id}:{receipt['timestamp']}"
+            )])
+    # ❌ دکمه بازگشت در جزئیات کاربر حذف شد
     
     keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard_rows)
-    await callback_query.message.edit_text(translations[lang]["select_user_to_view"], reply_markup=keyboard)
-    await state.set_state(AdminStates.VIEW_USER_DATA)
+    await callback_query.message.edit_text(response, reply_markup=keyboard)
+    await state.set_state(AdminStates.VIEW_USER_DETAILS)
+    await state.update_data(target_user_id=target_user_id)
 
 @router.message(F.text.in_([translations[lang]["back"] for lang in translations]))
 async def back_to_main_from_admin(message: types.Message, state: FSMContext):
@@ -1613,7 +1691,7 @@ async def manage_prices_premium(message: types.Message, state: FSMContext):
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=f"{plan} - {price:,} IRR", callback_data=f"price_premium_{plan}")]
         for plan, price in PREMIUM_PRICES.items()
-    ] + [[InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_admin")]])
+    ] + [[InlineKeyboardButton(text=translations[lang]["cancel"], callback_data="cancel_admin")]])
     await message.reply(translations[lang]["select_plan_to_update"], reply_markup=keyboard)
     await state.set_state(AdminStates.SET_PRICE)
 
@@ -1629,7 +1707,7 @@ async def manage_prices_stars(message: types.Message, state: FSMContext):
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=f"{plan} - {price:,} IRR", callback_data=f"price_stars_{plan}")]
         for plan, price in STARS_PRICES.items()
-    ] + [[InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_admin")]])
+    ] + [[InlineKeyboardButton(text=translations[lang]["cancel"], callback_data="cancel_admin")]])
     await message.reply(translations[lang]["select_plan_to_update"], reply_markup=keyboard)
     await state.set_state(AdminStates.SET_PRICE)
 @router.callback_query(StateFilter(AdminStates.SET_PRICE), F.data.startswith("price_"))
@@ -1681,7 +1759,7 @@ async def manage_plans_premium(message: types.Message, state: FSMContext):
         for plan, price in PREMIUM_PRICES.items()
     ] + [
         [InlineKeyboardButton(text=translations[lang]["add_new_plan"], callback_data="add_new_plan_premium")],
-        [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_admin")]
+        [InlineKeyboardButton(text=translations[lang]["cancel"], callback_data="cancel_admin")]
     ])
     await message.reply(translations[lang]["select_plan_to_manage"], reply_markup=keyboard)
     await state.set_state(AdminStates.MANAGE_PLANS)
@@ -1701,7 +1779,7 @@ async def manage_plans_stars(message: types.Message, state: FSMContext):
         for plan, price in STARS_PRICES.items()
     ] + [
         [InlineKeyboardButton(text=translations[lang]["add_new_plan"], callback_data="add_new_plan_stars")],
-        [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_admin")]
+       [InlineKeyboardButton(text=translations[lang]["cancel"], callback_data="cancel_admin")]
     ])
     await message.reply(translations[lang]["select_plan_to_manage"], reply_markup=keyboard)
     await state.set_state(AdminStates.MANAGE_PLANS)
@@ -1728,7 +1806,7 @@ async def add_new_plan(callback_query: types.CallbackQuery, state: FSMContext):
         [InlineKeyboardButton(text=translations[lang]["cancel"], callback_data="cancel_admin")]
     ])
     await callback_query.message.edit_text(translations[lang]["enter_new_plan_name"].format(plan=""), reply_markup=keyboard)
-    await state.set_
+    await state.set_state(AdminStates.SET_NEW_PLAN_NAME)  # ✅ اصلاح شد
 @router.message(StateFilter(AdminStates.SET_NEW_PLAN_NAME))
 async def process_new_plan_name(message: types.Message, state: FSMContext):
     user_id = str(message.from_user.id)
@@ -1862,25 +1940,6 @@ async def backup_database(message: types.Message, state: FSMContext):
     conn.close()
     await message.reply(translations[lang]["backup_created"].format(file=backup_file))
 
-@router.message(F.text.in_([translations[lang]["edit_main_menu"] for lang in translations]), F.from_user.id == int(INITIAL_ADMIN_ID))
-async def edit_main_menu(message: types.Message, state: FSMContext):
-    user_id = str(message.from_user.id)
-    await state.clear()
-    if not await check_rate_limit(user_id):
-        lang = await get_user_language(user_id)
-        await message.reply(translations[lang]["rate_limit"])
-        return
-    lang = await get_user_language(user_id)
-    buttons = await redis_client.lrange(f"main_menu:{lang}", 0, -1)
-    keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=button, callback_data=f"edit_button_{i}")]
-        for i, button in enumerate(buttons)
-    ] + [
-        [InlineKeyboardButton(text=translations[lang]["add_new_button"], callback_data="add_new_button")],
-        [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_admin")]
-    ])
-    await message.reply(translations[lang]["select_button_to_edit"], reply_markup=keyboard)
-    await state.set_state(AdminStates.EDIT_BUTTONS)
 
 @router.callback_query(StateFilter(AdminStates.EDIT_BUTTONS), F.data.startswith("edit_button_"))
 async def process_button_selection(callback_query: types.CallbackQuery, state: FSMContext):
@@ -2293,9 +2352,52 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
 
 
 
-
-
-
+@router.callback_query(F.data == "cancel_admin")
+async def cancel_admin_action(callback_query: types.CallbackQuery, state: FSMContext):
+    user_id = str(callback_query.from_user.id)
+    lang = await get_user_language(user_id)
+    await state.clear()
+    
+    # ✅ کیبورد اینلاین برای پنل ادمین
+    buttons = await redis_client.lrange(f"admin_menu:{lang}", 0, -1)
+    if not buttons:
+        buttons = [
+            translations[lang]["manage_prices_premium"],
+            translations[lang]["manage_prices_stars"],
+            translations[lang]["manage_plans_premium"],
+            translations[lang]["manage_plans_stars"],
+            translations[lang]["view_user_data"],
+            translations[lang]["manage_verifications"],
+            translations[lang]["view_orders"],
+            translations[lang]["broadcast_message"],
+            translations[lang]["view_stats"],
+            translations[lang]["backup_database"],
+            translations[lang]["back"]
+        ]
+        await redis_client.delete(f"admin_menu:{lang}")
+        for button in buttons:
+            await redis_client.rpush(f"admin_menu:{lang}", button)
+    
+    keyboard_rows = []
+    for i in range(0, len(buttons), 2):
+        row = buttons[i:i+2]
+        keyboard_rows.append([InlineKeyboardButton(text=btn, callback_data=f"admin_{btn}") for btn in row])
+    
+    keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard_rows)
+    
+    try:
+        await callback_query.message.edit_text(
+            translations[lang]["admin_panel"],
+            reply_markup=keyboard
+        )
+    except Exception as e:
+        logger.error(f"Error editing message: {e}")
+        await callback_query.message.reply(
+            translations[lang]["admin_panel"],
+            reply_markup=keyboard
+        )
+    
+    logger.info(f"Admin {user_id} canceled action and returned to admin panel")
 
 @router.callback_query(StateFilter(UserStates.PURCHASE_TYPE), F.data.in_(["continue_with_current_card", "verify_new_card"]))
 async def handle_card_choice(callback_query: types.CallbackQuery, state: FSMContext):
@@ -3208,14 +3310,31 @@ async def retry_purchase_type(callback_query: types.CallbackQuery, state: FSMCon
     await callback_query.message.edit_text(translations[lang]["select_plan"], reply_markup=keyboard)
     await state.set_state(UserStates.PURCHASE_TYPE)
 
-async def main():
-    # پاک‌سازی داده‌های کارت‌های بانکی در شروع
-    await load_prices()
-    try:
-        await dp.start_polling(bot)
-    finally:
-        await bot.session.close()
-        logger.info("Bot session closed")
 
-if __name__ == '__main__':
+async def main():
+    await load_prices()
+    logger.info("✅ Prices loaded successfully!")
+    webhook_url = os.getenv("WEBHOOK_URL")
+    if webhook_url:
+        try:
+            await bot.delete_webhook()
+            await bot.set_webhook(webhook_url)
+            logger.info(f"Webhook set to {webhook_url}")
+            await dp.start_webhook(
+                dispatcher=dp,
+                webhook_path="/webhook",
+                host="0.0.0.0",
+                port=int(os.getenv("PORT", 10000))
+            )
+        except Exception as e:
+            logger.error(f"Failed to set webhook: {e}")
+            await bot.delete_webhook()
+            await dp.start_polling(bot)
+    else:
+        logger.info("No WEBHOOK_URL set, falling back to polling")
+        await dp.start_polling(bot)
+    await bot.session.close()
+    logger.info("Bot session closed")
+
+if __name__ == "__main__":
     asyncio.run(main())

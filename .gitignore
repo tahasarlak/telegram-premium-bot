@@ -1,0 +1,8 @@
+.env
+*.log
+bot_database.db
+backup_*.sql
+__pycache__/
+*.pyc
+welcome_image.jpg
+bank_card_image.jpg

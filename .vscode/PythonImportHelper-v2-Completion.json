@@ -280,6 +280,14 @@
         "documentation": {}
     },
     {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
         "label": "UserStates",
         "kind": 6,
         "importPath": "telegram_bot",
@@ -307,56 +315,11 @@
         "documentation": {}
     },
     {
-        "label": "REDIS_HOST",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "REDIS_HOST = os.getenv(\"REDIS_HOST\", \"redis-13206.c328.europe-west3-1.gce.redns.redis-cloud.com\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\", \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\")\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "REDIS_PORT",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "REDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\", \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\")\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "REDIS_USERNAME",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "REDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\", \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\")\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\n# Configuration",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "REDIS_PASSWORD",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "REDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\", \"aBYRaTdeRkECvVMyqVFs6macSGSwCBEV\")\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\n# Configuration\nBOT_TOKEN = \"7957011724:AAEw6DmIP7Mtu81O3zWFYaBi04NMLz_ftzc\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "redis_client",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "redis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\n# Configuration\nBOT_TOKEN = \"7957011724:AAEw6DmIP7Mtu81O3zWFYaBi04NMLz_ftzc\"\nCHANNEL_ID = \"@FyrenPremium\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
         "label": "BOT_TOKEN",
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "BOT_TOKEN = \"7957011724:AAEw6DmIP7Mtu81O3zWFYaBi04NMLz_ftzc\"\nCHANNEL_ID = \"@FyrenPremium\"\nMERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"",
+        "peekOfCode": "BOT_TOKEN = os.getenv(\"BOT_TOKEN\")\nCHANNEL_ID = \"@FyrenPremium\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = \"5859_8311_0309_4008\"\nDB_FILE = \"bot_database.db\"\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -365,43 +328,7 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "CHANNEL_ID = \"@FyrenPremium\"\nMERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "MERCHANT_ID",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "MERCHANT_ID = \"YOUR_ZARINPAL_MERCHANT_ID\"\nEXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "EXCHANGE_API_URL",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "EXCHANGE_API_URL = \"https://api.nobitex.ir/v2/orderbook/TRXIRT\"\nFRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "FRAGMENT_API_URL",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "FRAGMENT_API_URL = \"https://fragment.com/api\"\nNOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "NOBITEX_API_KEY",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "NOBITEX_API_KEY = \"YOUR_NOBITEX_API_KEY\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging",
+        "peekOfCode": "CHANNEL_ID = \"@FyrenPremium\"\nSUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = \"5859_8311_0309_4008\"\nDB_FILE = \"bot_database.db\"\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\")",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -410,16 +337,7 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "SUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nWEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "WEBHOOK_URL",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "WEBHOOK_URL = \"YOUR_WEBHOOK_URL\"\nENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,",
+        "peekOfCode": "SUPPORT_CHAT = \"https://t.me/ownerpremiland\"\nENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = \"5859_8311_0309_4008\"\nDB_FILE = \"bot_database.db\"\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\")\n# ✅ Logging اول! - خط ۴۵-۵۲",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -428,16 +346,7 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "ENCRYPTION_KEY = b'k3J5g7pQz8Yk4z5Kx6r7m8n9p0q1r2s3t4u5v6w7x8y='\nJWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "JWT_SECRET",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "JWT_SECRET = \"your_jwt_secret_key_very_secure\"\nINITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[",
+        "peekOfCode": "ENCRYPTION_KEY = os.getenv(\"ENCRYPTION_KEY\").encode()\nINITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = \"5859_8311_0309_4008\"\nDB_FILE = \"bot_database.db\"\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\")\n# ✅ Logging اول! - خط ۴۵-۵۲\nlogging.basicConfig(",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -446,16 +355,7 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "INITIAL_ADMIN_ID = \"8327717833\"\nBANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),",
-        "detail": "telegram_bot",
-        "documentation": {}
-    },
-    {
-        "label": "BANK_CARD_IMAGE",
-        "kind": 5,
-        "importPath": "telegram_bot",
-        "description": "telegram_bot",
-        "peekOfCode": "BANK_CARD_IMAGE = \"bank_card_image.jpg\"\nBANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),\n        logging.StreamHandler()",
+        "peekOfCode": "INITIAL_ADMIN_ID = os.getenv(\"INITIAL_ADMIN_ID\")\nBANK_CARD_NUMBER = \"5859_8311_0309_4008\"\nDB_FILE = \"bot_database.db\"\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\")\n# ✅ Logging اول! - خط ۴۵-۵۲\nlogging.basicConfig(\n    level=logging.DEBUG,",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -464,7 +364,7 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "BANK_CARD_NUMBER = \"YOUR_BANK_CARD_NUMBER\"\nDB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),\n        logging.StreamHandler()\n    ]",
+        "peekOfCode": "BANK_CARD_NUMBER = \"5859_8311_0309_4008\"\nDB_FILE = \"bot_database.db\"\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\")\n# ✅ Logging اول! - خط ۴۵-۵۲\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -473,7 +373,43 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "DB_FILE = \"bot_database.db\"\n# Initialize logging\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),\n        logging.StreamHandler()\n    ]\n)",
+        "peekOfCode": "DB_FILE = \"bot_database.db\"\nREDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\")\n# ✅ Logging اول! - خط ۴۵-۵۲\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "REDIS_HOST",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "REDIS_HOST = os.getenv(\"REDIS_HOST\")\nREDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\")\n# ✅ Logging اول! - خط ۴۵-۵۲\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "REDIS_PORT",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "REDIS_PORT = int(os.getenv(\"REDIS_PORT\", 13206))\nREDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\")\n# ✅ Logging اول! - خط ۴۵-۵۲\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),\n        logging.StreamHandler()",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "REDIS_USERNAME",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "REDIS_USERNAME = os.getenv(\"REDIS_USERNAME\", \"default\")\nREDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\")\n# ✅ Logging اول! - خط ۴۵-۵۲\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),\n        logging.StreamHandler()\n    ]",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "REDIS_PASSWORD",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "REDIS_PASSWORD = os.getenv(\"REDIS_PASSWORD\")\n# ✅ Logging اول! - خط ۴۵-۵۲\nlogging.basicConfig(\n    level=logging.DEBUG,\n    format='%(asctime)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('bot.log', encoding='utf-8'),\n        logging.StreamHandler()\n    ]\n)",
         "detail": "telegram_bot",
         "documentation": {}
     },
@@ -482,7 +418,16 @@
         "kind": 5,
         "importPath": "telegram_bot",
         "description": "telegram_bot",
-        "peekOfCode": "logger = logging.getLogger(__name__)\n# Initialize Redis client\n# Initialize SQLite database\ndef init_sqlite_db():\n    conn = sqlite3.connect(DB_FILE)\n    cursor = conn.cursor()\n    cursor.execute('''\n        CREATE TABLE IF NOT EXISTS users (\n            user_id TEXT PRIMARY KEY,\n            username TEXT,",
+        "peekOfCode": "logger = logging.getLogger(__name__)\n# ✅ Redis Client کامل - خط ۵۰-۵۵\nredis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\nlogger.info(\"Redis client initialized\")",
+        "detail": "telegram_bot",
+        "documentation": {}
+    },
+    {
+        "label": "redis_client",
+        "kind": 5,
+        "importPath": "telegram_bot",
+        "description": "telegram_bot",
+        "peekOfCode": "redis_client = redis.Redis(\n    host=REDIS_HOST,\n    port=REDIS_PORT,\n    username=REDIS_USERNAME,\n    password=REDIS_PASSWORD,\n    decode_responses=True\n)\nlogger.info(\"Redis client initialized\")\n# Initialize SQLite database\ndef init_sqlite_db():",
         "detail": "telegram_bot",
         "documentation": {}
     },
