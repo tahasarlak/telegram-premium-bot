@@ -499,7 +499,7 @@
         "kind": 5,
         "importPath": "translations",
         "description": "translations",
-        "peekOfCode": "translations = {\n    \"en\": {\n        \"rate_limit\": \"Please wait a moment before trying again.\",\n        \"invalid_referral_id\": \"Invalid referral ID.\",\n        \"welcome\": \"Welcome, {name}! How can I help you today?\",\n        \"welcome_image\": \"Hello, {name}!\",\n        \"select_language\": \"Please select your language:\",\n        \"language_changed\": \"Language changed successfully!\",\n        \"guide\": \"Guide\",\n        \"guide_content\": \"This is a guide on how to use the bot. Step 1: ...\",",
+        "peekOfCode": "translations = {\n    \"en\": {\n        \"rate_limit\": \"Please wait a moment before trying again.\",\n        \"invalid_referral_id\": \"Invalid referral ID.\",\n        \"welcome\": \"Welcome, {name}! How can I help you today?\",\n        \"welcome_image\": \"Hello, {name}!\",\n        \"select_language\": \"Please select your language:\",\n        \"language_changed\": \"Language changed successfully!\",\n        \"guide\": \"Guide\",\n       \"guide_content\": \"\"\"🔥 Complete Fyren Premium Bot Guide 🔥",
         "detail": "translations",
         "documentation": {}
     }

@@ -715,32 +715,13 @@ async def view_bank_card_photo(callback_query: types.CallbackQuery, state: FSMCo
 @router.callback_query(F.data.startswith("view_receipt_"))
 async def view_receipt(callback_query: types.CallbackQuery, state: FSMContext):
     user_id = str(callback_query.from_user.id)
-    lang = await get_user_language(user_id)
     target_key = callback_query.data.replace("view_receipt_", "")
-    try:
-        target_user_id, timestamp = target_key.split(":", 1)
-    except ValueError:
-        logger.error(f"Invalid callback data format: {target_key}")
-        await callback_query.message.edit_text(
-            translations[lang]["invalid_action"],
-            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_user_data")]
-            ])
-        )
-        return
+    target_user_id, timestamp = target_key.split(":", 1)
+    lang = await get_user_language(user_id)
     
-    logger.debug(f"Processing view_receipt for user {target_user_id}, timestamp: {timestamp}")
     receipt_data = await get_receipt_from_db(target_user_id, timestamp)
-    logger.debug(f"Receipt data for {target_user_id}:{timestamp}: {receipt_data}")
-    
     if not receipt_data:
-        logger.warning(f"No receipt found for user {target_user_id} at {timestamp}")
-        await callback_query.message.edit_text(
-            translations[lang]["receipt_photo_not_found"],
-            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_user_data")]
-            ])
-        )
+        await callback_query.message.edit_text(translations[lang]["receipt_photo_not_found"])
         return
     
     status_text = {
@@ -752,8 +733,8 @@ async def view_receipt(callback_query: types.CallbackQuery, state: FSMContext):
     }.get(receipt_data["status"], "نامشخص")
     reject_reason = receipt_data.get("reject_reason", "ندارد")
     
-    # فقط برای فیش‌های در وضعیت pending_admin دکمه‌های تأیید/رد نمایش داده شوند
-    keyboard_buttons = [[InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_user_data")]]
+    # فقط برای فیش‌های pending_admin دکمه‌های تأیید/رد
+    keyboard_buttons = [[InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_verifications")]]
     if receipt_data["status"] == "pending_admin":
         keyboard_buttons.insert(0, [
             InlineKeyboardButton(text=translations[lang]["approve_receipt"], callback_data=f"approve_receipt_{target_user_id}:{timestamp}"),
@@ -773,12 +754,85 @@ async def view_receipt(callback_query: types.CallbackQuery, state: FSMContext):
     if receipt_data["photo_file_id"]:
         try:
             await bot.send_photo(user_id, photo=receipt_data["photo_file_id"])
-            logger.debug(f"Sent receipt photo to admin {user_id} for user {target_user_id}, timestamp: {timestamp}")
+            logger.debug(f"Sent receipt photo to admin {user_id}")
         except Exception as e:
-            logger.error(f"Error sending receipt photo to admin {user_id}: {str(e)}")
-            await callback_query.message.reply(translations[lang]["error_sending_photo"])
+            logger.error(f"Error sending receipt photo: {e}")
+
+
+
+
+@router.message(StateFilter(UserStates.ENTER_OTHER_PHONE))
+async def process_other_phone_direct(message: types.Message, state: FSMContext):
+    user_id = str(message.from_user.id)
+    lang = await get_user_language(user_id)
+    input_text = message.text.strip()
     
-    logger.info(f"Displayed receipt details for user {target_user_id}, timestamp: {timestamp}")@router.callback_query(F.data == "back_to_admin")
+    logger.info(f"🔍 ENTER_OTHER_PHONE INPUT: '{input_text}' from {user_id}")
+    
+    # ✅ پاک‌سازی فاصله‌ها
+    clean_input = input_text.replace(" ", "").replace("-", "")
+    logger.info(f"🧹 Cleaned: '{clean_input}'")
+    
+    target_id = clean_input  # ✅ مستقیم!
+    target_name = input_text  # ✅ همون ورودی!
+    
+    # ✅ شماره/ID/یوزرنیم → همشون OK!
+    if clean_input.startswith("09") or clean_input.startswith("989") or clean_input.isdigit() or input_text.startswith("@"):
+        logger.info(f"✅ VALID: {input_text} → ID: {target_id}")
+    else:
+        logger.warning(f"❌ INVALID: '{input_text}'")
+        await message.reply(
+            "❌ فرمت اشتباه!\n\n✅ مثال:\n• 09123456789\n• 8327717833\n• @username"
+        )
+        return
+    
+    # ✅ ذخیره + تأیید (بدون چک!)
+    data = await state.get_data()
+    purchase_type = data["purchase_type"]
+    price = (PREMIUM_PRICES.get(purchase_type.split("_")[1]) if purchase_type.startswith("premium_")
+             else STARS_PRICES.get(purchase_type.split("_")[1]))
+    
+    pending_data = {
+        "purchase_type": purchase_type,
+        "target_id": target_id,
+        "target_name": target_name,
+        "plan_category": data["plan_category"],
+        "price": price
+    }
+    await redis_client.set(f"user:{user_id}:pending_purchase", json.dumps(pending_data), ex=3600)
+    logger.info(f"💾 Pending saved: {pending_data}")
+    
+    # ✅ نوتیف به ادمین!
+    await bot.send_message(
+        INITIAL_ADMIN_ID,
+        f"🛒 **خرید برای دیگران**\n"
+        f"👤 خریدار: `{user_id}`\n"
+        f"👤 گیرنده: `{target_name}` (`{target_id}`)\n"
+        f"📦 `{purchase_type}`\n"
+        f"💰 `{price:,}` تومان",
+        parse_mode="Markdown"
+    )
+    logger.info(f"📢 Admin notified: {user_id} → {target_id}")
+    
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="✅ تأیید", callback_data="confirm_purchase")],
+        [InlineKeyboardButton(text="❌ لغو", callback_data="cancel_purchase")]
+    ])
+    await message.reply(
+        f"✅ خرید ثبت شد!\n\n"
+        f"👤 `{target_name}`\n"
+        f"🔢 `{target_id}`\n"
+        f"📦 `{purchase_type}`\n"
+        f"💰 `{price:,}` تومان\n\n"
+        f"تأیید می‌کنید؟",
+        reply_markup=keyboard,
+        parse_mode="Markdown"
+    )
+    await state.set_state(UserStates.PURCHASE_CONFIRM)
+    logger.info(f"✅ ENTER_OTHER_PHONE SUCCESS: {user_id} → {target_id}")
+
+
+
 async def back_to_admin(callback_query: types.CallbackQuery, state: FSMContext):
     user_id = str(callback_query.from_user.id)
     lang = await get_user_language(user_id)
@@ -1065,68 +1119,10 @@ async def clear_pending_bank_cards(user_id, current_timestamp=None):
 async def handle_contact_share(message: types.Message, state: FSMContext):
     user_id = str(message.from_user.id)
     lang = await get_user_language(user_id)
-    logger.info(f"Handling contact share for user {user_id}, phone: {message.contact.phone_number}")
+    phone_number = message.contact.phone_number  # ✅ تعریف!
+    logger.info(f"Handling contact share for user {user_id}, phone: {phone_number}")
 
-    # بررسی خرید در انتظار
     pending_purchase = await redis_client.get(f"user:{user_id}:pending_purchase")
-    logger.debug(f"Pending purchase for user {user_id}: {pending_purchase}")
-    if not pending_purchase:
-        logger.error(f"No pending purchase found for user {user_id}")
-        await message.reply(
-            translations[lang]["no_pending_purchase"],
-            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text=translations[lang]["buy_premium"], callback_data="retry_premium")],
-                [InlineKeyboardButton(text=translations[lang]["buy_stars"], callback_data="retry_stars")]
-            ])
-        )
-        await state.clear()
-        return
-
-    phone_number = message.contact.phone_number
-    logger.debug(f"Processing phone number {phone_number} for user {user_id}")
-
-    try:
-        # به‌روزرسانی pending_purchase با شماره تلفن
-        purchase_info = json.loads(pending_purchase)
-        purchase_info["phone_number"] = phone_number
-        await redis_client.set(f"user:{user_id}:pending_purchase", json.dumps(purchase_info), ex=7200)
-        logger.debug(f"Updated pending_purchase with phone number for user {user_id}: {purchase_info}")
-
-        # ارسال پیام برای دریافت عکس کارت
-        await message.reply(
-            translations[lang]["verification_message"],
-            reply_markup=await get_main_menu(lang, user_id)
-        )
-        logger.debug(f"Verification message sent to user {user_id}")
-        await state.set_state(UserStates.VERIFY_BANK_CARD)
-    except Exception as e:
-        logger.error(f"Error processing contact share for user {user_id}: {str(e)}")
-        await message.reply(translations[lang]["error_occurred"], reply_markup=await get_main_menu(lang, user_id))
-        await state.clear()
-
-@router.message(StateFilter(UserStates.VERIFY_BANK_CARD), F.photo)
-async def handle_bank_card_photo(message: types.Message, state: FSMContext):
-    user_id = str(message.from_user.id)
-    lang = await get_user_language(user_id)
-    photo_file_id = message.photo[-1].file_id
-    timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-    logger.info(f"Handling bank card photo for user {user_id}, timestamp: {timestamp}")
-
-    # پاک‌سازی حالت
-    await state.clear()
-    logger.debug(f"Cleared state for user {user_id} before processing bank card photo")
-
-    # بررسی کارت‌ها و فیش‌های در انتظار (به جز کارت جدید)
-    if not await clear_pending_bank_cards(user_id, current_timestamp=timestamp):
-        # اگر کارت یا فیش در انتظاری وجود دارد، منتظر تأیید کاربر می‌مانیم
-        await state.set_state(UserStates.CONFIRM_BANK_CARD)
-        await state.update_data(photo_file_id=photo_file_id, timestamp=timestamp)
-        logger.debug(f"Pending cards or receipts found for user {user_id}, awaiting confirmation")
-        return
-
-    # بررسی خرید در انتظار
-    pending_purchase = await redis_client.get(f"user:{user_id}:pending_purchase")
-    logger.debug(f"Pending purchase for user {user_id}: {pending_purchase}")
     if not pending_purchase:
         logger.error(f"No pending purchase found for user {user_id}")
         await message.reply(
@@ -1140,63 +1136,61 @@ async def handle_bank_card_photo(message: types.Message, state: FSMContext):
         return
 
     purchase_info = json.loads(pending_purchase)
-    phone_number = purchase_info.get("phone_number", None)
-    if not phone_number:
-        logger.warning(f"No phone number found in pending_purchase for user {user_id}")
-        await message.reply(
-            translations[lang]["error_occurred"],
-            reply_markup=await get_main_menu(lang, user_id)
-        )
+    purchase_info["phone_number"] = phone_number
+    await redis_client.set(f"user:{user_id}:pending_purchase", json.dumps(purchase_info), ex=7200)
+    
+    await message.reply(
+        translations[lang]["verification_message"],
+        reply_markup=await get_main_menu(lang, user_id)
+    )
+    await state.set_state(UserStates.VERIFY_BANK_CARD)
+@router.message(StateFilter(UserStates.VERIFY_BANK_CARD), F.photo)
+async def handle_bank_card_photo(message: types.Message, state: FSMContext):
+    user_id = str(message.from_user.id)
+    lang = await get_user_language(user_id)
+    photo_file_id = message.photo[-1].file_id
+    timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+    logger.info(f"Handling bank card photo for user {user_id}, timestamp: {timestamp}")
+   
+    await state.clear()
+   
+    if not await clear_pending_bank_cards(user_id, current_timestamp=timestamp):
+        await state.set_state(UserStates.CONFIRM_BANK_CARD)
+        await state.update_data(photo_file_id=photo_file_id, timestamp=timestamp)
+        return
+   
+    pending_purchase = await redis_client.get(f"user:{user_id}:pending_purchase")
+    if not pending_purchase:
+        await message.reply(translations[lang]["no_pending_purchase"])
         await state.clear()
         return
+   
+    purchase_info = json.loads(pending_purchase)
+    # ✅ شماره: از pending یا فرضی
+    phone_number = purchase_info.get("phone_number") or f"+98{user_id[-9:]}"
+   
+    # ✅ ذخیره + تأیید (مثل قبل)
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM bank_cards WHERE user_id = ? AND timestamp != ? AND status IN ("pending_user", "pending_admin")', (user_id, timestamp))
+    conn.commit()
+    conn.close()
+   
+    await save_bank_card_to_db(user_id, timestamp, phone_number=phone_number, photo_file_id=photo_file_id, status="pending_user")
+    
+    await redis_client.hset("pending_bank_card_verifications", f"{user_id}:{timestamp}", json.dumps({
+        "photo_file_id": photo_file_id, "timestamp": timestamp, "phone_number": phone_number, "status": "pending_user"
+    }))
+    
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=translations[lang]["confirm_bank_card"], callback_data=f"confirm_bank_card_{timestamp}")],
+        [InlineKeyboardButton(text=translations[lang]["cancel_bank_card"], callback_data=f"cancel_bank_card_{timestamp}")]
+    ])
+    await message.reply_photo(photo=photo_file_id, caption=translations[lang]["confirm_bank_card_query"], reply_markup=keyboard)
+    await state.set_state(UserStates.CONFIRM_BANK_CARD)
 
-    try:
-        # حذف کارت‌های قدیمی‌تر در SQLite
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        cursor.execute('DELETE FROM bank_cards WHERE user_id = ? AND timestamp != ? AND status IN ("pending_user", "pending_admin")', (user_id, timestamp))
-        conn.commit()
-        conn.close()
-        logger.debug(f"Deleted older pending bank cards for user {user_id}, keeping timestamp: {timestamp}")
 
-        # ذخیره کارت جدید در SQLite
-        await save_bank_card_to_db(user_id, timestamp, phone_number=phone_number, photo_file_id=photo_file_id, status="pending_user")
-        logger.info(f"Bank card saved to SQLite for user {user_id}, timestamp: {timestamp}")
 
-        # حذف کارت‌های قدیمی‌تر در Redis
-        redis_keys = await redis_client.hkeys("pending_bank_card_verifications")
-        for key in redis_keys:
-            if key.startswith(f"{user_id}:") and key != f"{user_id}:{timestamp}":
-                await redis_client.hdel("pending_bank_card_verifications", key)
-                logger.debug(f"Deleted Redis key {key} for user {user_id}")
-
-        # ذخیره در Redis
-        await redis_client.hset("pending_bank_card_verifications", f"{user_id}:{timestamp}", json.dumps({
-            "photo_file_id": photo_file_id,
-            "timestamp": timestamp,
-            "phone_number": phone_number,
-            "status": "pending_user"
-        }))
-        await redis_client.expire("pending_bank_card_verifications", 7200)
-        logger.info(f"Bank card cached in Redis for user {user_id}, timestamp: {timestamp}")
-
-        # ارسال پیام تأیید
-        keyboard = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text=translations[lang]["confirm_bank_card"], callback_data=f"confirm_bank_card_{timestamp}")],
-            [InlineKeyboardButton(text=translations[lang]["cancel_bank_card"], callback_data=f"cancel_bank_card_{timestamp}")]
-        ])
-        await message.reply_photo(
-            photo=photo_file_id,
-            caption=translations[lang]["confirm_bank_card_query"],
-            reply_markup=keyboard
-        )
-        await state.set_state(UserStates.CONFIRM_BANK_CARD)
-        logger.debug(f"Sent confirmation message for bank card to user {user_id}")
-    except Exception as e:
-        logger.error(f"Error processing bank card photo for user {user_id}: {str(e)}")
-        await message.reply(translations[lang]["error_occurred"], reply_markup=await get_main_menu(lang, user_id))
-        await state.clear()
-@router.callback_query(StateFilter(UserStates.CONFIRM_BANK_CARD), F.data.startswith("proceed_new_card_"))
 async def proceed_new_card(callback_query: types.CallbackQuery, state: FSMContext):
     user_id = str(callback_query.from_user.id)
     lang = await get_user_language(user_id)
@@ -1348,60 +1342,57 @@ async def handle_receipt_photo(message: types.Message, state: FSMContext):
     user_id = str(message.from_user.id)
     lang = await get_user_language(user_id)
     photo_file_id = message.photo[-1].file_id
-    timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")  # ساده‌سازی timestamp
-
-    # پاک‌سازی حالت برای جلوگیری از تداخل
-    await state.clear()
-    logger.debug(f"Cleared state for user {user_id} before processing receipt photo")
-
-    # پاک‌سازی فیش‌های در حال انتظار قبلی برای کاربر
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + f"_{message.message_id}"  # ✅ unique!
+   
+    logger.info(f"✅ Receipt photo received for user {user_id}, timestamp: {timestamp}")
+    
+    # ✅ state clear فقط یکبار!
+    if not await state.get_state():
+        await state.clear()
+    
+    # ✅ DELETE فقط قبلی‌ها (نه current!)
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM receipts WHERE user_id = ? AND status IN ("pending_user", "pending_admin")', (user_id,))
-    cursor.execute('SELECT COUNT(*) FROM receipts WHERE user_id = ?', (user_id,))
-    remaining_receipts = cursor.fetchone()[0]
+    cursor.execute('DELETE FROM receipts WHERE user_id = ? AND timestamp != ? AND status IN ("pending_user", "pending_admin")', (user_id, timestamp))
     conn.commit()
     conn.close()
-    logger.debug(f"Cleared pending receipts for user {user_id}. Remaining receipts: {remaining_receipts}")
-
-    # پاک‌سازی Redis برای فیش‌های در حال انتظار
+    logger.debug(f"Cleared OLDER receipts for user {user_id}")
+    
+    # ✅ Redis پاک‌سازی
     redis_keys = await redis_client.hkeys("pending_receipt_verifications")
     for key in redis_keys:
         if key.startswith(f"{user_id}:"):
             await redis_client.hdel("pending_receipt_verifications", key)
-    logger.debug(f"Cleared Redis pending receipt keys for user {user_id}")
-
-    # بررسی خرید در انتظار
+    
     pending_purchase = await redis_client.get(f"user:{user_id}:pending_purchase")
     if not pending_purchase:
-        logger.error(f"No pending purchase found for user {user_id}")
         await message.reply(translations[lang]["error_occurred"])
         await state.clear()
         return
-    
+   
     purchase_info = json.loads(pending_purchase)
     purchase_type = purchase_info.get("purchase_type", "نامشخص")
     price = purchase_info.get("price", 0)
     plan_category = purchase_info.get("plan_category", "نامشخص")
-    logger.debug(f"Pending purchase for user {user_id}: {purchase_info}")
-
-    # ذخیره در SQLite
+    target_id = purchase_info.get("target_id", user_id)  # ✅ default!
+   
+    logger.info(f"✅ Saving receipt: {purchase_type}, {price}, target_id: {target_id}")
+   
+    # ✅ ذخیره
     await save_receipt_to_db(user_id, timestamp, purchase_type, price, plan_category, status="pending_user", photo_file_id=photo_file_id)
-    logger.debug(f"Receipt saved for user {user_id} at {timestamp}")
-
-    # ذخیره در Redis
+    
     await redis_client.hset("pending_receipt_verifications", f"{user_id}:{timestamp}", json.dumps({
         "photo_file_id": photo_file_id,
         "timestamp": timestamp,
         "user_id": user_id,
+        "target_id": target_id,
         "status": "pending_user",
         "purchase_type": purchase_type,
         "price": price,
         "plan_category": plan_category
     }))
     await redis_client.expire("pending_receipt_verifications", 3600)
-    logger.debug(f"Receipt cached in Redis for user {user_id} at {timestamp}")
-
+    
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=translations[lang]["confirm_receipt"], callback_data=f"confirm_receipt_{timestamp}")],
         [InlineKeyboardButton(text=translations[lang]["cancel_receipt"], callback_data=f"cancel_receipt_{timestamp}")]
@@ -1412,6 +1403,11 @@ async def handle_receipt_photo(message: types.Message, state: FSMContext):
         reply_markup=keyboard
     )
     await state.set_state(UserStates.CONFIRM_RECEIPT)
+    logger.info(f"✅ Receipt saved: {timestamp}")
+    
+    
+    
+
 
 
 @router.callback_query(StateFilter(UserStates.CONFIRM_RECEIPT), F.data.startswith("confirm_receipt_"))
@@ -1638,7 +1634,7 @@ async def complete_order(callback_query: types.CallbackQuery, state: FSMContext)
     admin_lang = await get_user_language(str(callback_query.from_user.id))
     user_lang = await get_user_language(target_user_id)
     
-    # Retrieve order from SQLite
+    # ✅ سفارش + گیرنده واقعی!
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM orders WHERE user_id = ? AND timestamp = ?', (target_user_id, timestamp))
@@ -1649,34 +1645,49 @@ async def complete_order(callback_query: types.CallbackQuery, state: FSMContext)
         await callback_query.message.edit_text(translations[admin_lang]["order_not_found"])
         return
     
-    user_id, timestamp, purchase_type, price, plan_category, target_id, status = order
+    buyer_id, timestamp, purchase_type, price, plan_category, target_id, status = order
+    target_name = "نامشخص"
+    
+    # ✅ نام گیرنده!
+    try:
+        target_info = await bot.get_chat(target_id)
+        target_name = target_info.username or target_info.first_name or target_id
+    except:
+        pass
+    
     if status != "pending":
         await callback_query.message.edit_text(translations[admin_lang]["order_not_pending"])
         return
     
-    # Update order status to completed in SQLite
-    await save_order_to_db(
-        target_user_id, timestamp, purchase_type, price, plan_category, target_id, status="completed"
-    )
+    # ✅ فعال‌سازی برای گیرنده!
+    await save_order_to_db(buyer_id, timestamp, purchase_type, price, plan_category, target_id, status="completed")
     
-    # Activate the purchase
     if plan_category == "premium":
         durations = {"1month": 30, "3month": 90, "6month": 180}
         duration = durations.get(purchase_type.split("_")[1], 30)
         expiry = datetime.now() + timedelta(days=duration)
         await redis_client.setex(f"user:{target_id}:premium_expiry", int((expiry - datetime.now()).total_seconds()), expiry.isoformat())
+        logger.info(f"✅ Premium {duration}d → {target_id}")
     else:
         stars_amounts = {"10stars": 10, "50stars": 50, "100stars": 100}
         stars = stars_amounts.get(purchase_type.split("_")[1], 10)
         current_stars = int(await redis_client.get(f"user:{target_id}:stars") or 0)
         new_stars = current_stars + stars
         await redis_client.set(f"user:{target_id}:stars", new_stars)
+        logger.info(f"⭐ {stars} stars → {target_id}")
     
-    # Notify user
+    # ✅ نوتیف هر دو!
+    await bot.send_message(buyer_id, f"✅ سفارش شما برای **{target_name}** فعال شد!")
     await bot.send_message(target_id, translations[user_lang]["purchase_activated"])
-    await callback_query.message.edit_text(translations[admin_lang]["order_completed_admin"].format(user_id=target_user_id))
-    logger.info(f"Order completed for user {target_user_id} at {timestamp}")
-
+    
+    await callback_query.message.edit_text(
+        f"✅ **سفارش کامل شد!**\n\n"
+        f"👤 خریدار: {buyer_id}\n"
+        f"👤 **گیرنده: {target_name}**\n"
+        f"📦 {purchase_type}\n"
+        f"💰 {price:,} تومان"
+    )
+    logger.info(f"✅ Order completed: {buyer_id} → {target_id} ({target_name})")
 
 
 @router.message(F.text.in_([translations[lang]["manage_prices_premium"] for lang in translations]), F.from_user.id == int(INITIAL_ADMIN_ID))
@@ -2090,7 +2101,8 @@ async def view_bank_card(callback_query: types.CallbackQuery, state: FSMContext)
     logger.info(f"Displayed bank card details for user {user_id}, timestamp: {timestamp}")  
     
     
-async def view_receipt(callback_query: types.CallbackQuery):
+@router.callback_query(F.data.startswith("view_receipt_"))
+async def view_receipt(callback_query: types.CallbackQuery, state: FSMContext):
     user_id = str(callback_query.from_user.id)
     target_key = callback_query.data.replace("view_receipt_", "")
     target_user_id, timestamp = target_key.split(":", 1)
@@ -2137,16 +2149,17 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
             ])
         )
         return
-
+   
     admin_lang = await get_user_language(str(callback_query.from_user.id))
     user_lang = await get_user_language(target_user_id)
     logger.info(f"START: Processing approve_bank_card for user {target_user_id}, timestamp: {timestamp}")
-
+   
     try:
         # بررسی کارت در دیتابیس
         logger.debug(f"Fetching bank card data for {target_user_id}:{timestamp}")
         bank_data = await get_bank_card_from_db(target_user_id, timestamp)
         logger.debug(f"Bank card data for {target_user_id}:{timestamp}: {bank_data}")
+       
         if not bank_data:
             logger.warning(f"No bank card found for user {target_user_id} at {timestamp}")
             await callback_query.message.edit_text(
@@ -2156,7 +2169,7 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
                 ])
             )
             return
-
+       
         # بررسی وضعیت کارت
         logger.debug(f"Checking status for bank card {target_user_id}:{timestamp}")
         if bank_data["status"] != "pending_admin":
@@ -2168,13 +2181,14 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
                 ])
             )
             return
-
+       
         # تنظیم انقضا تا پایان روز
         logger.debug(f"Setting expiry for bank card")
-        expiry = datetime.now().replace(hour=23, minute=59, second=59, microsecond=999999)
-        expiry_jalali = jdatetime.fromgregorian(datetime=expiry).strftime("%Y/%m/%d %H:%M:%S")
-        logger.debug(f"Set expiry for bank card: {expiry.isoformat()} (Jalali: {expiry_jalali})")
-
+        expiry_dt = datetime.now().replace(hour=23, minute=59, second=59, microsecond=999999)
+        expiry = expiry_dt.isoformat()
+        expiry_jalali = jdatetime.fromgregorian(datetime=expiry_dt).strftime("%Y/%m/%d %H:%M:%S")
+        logger.debug(f"Set expiry for bank card: {expiry} (Jalali: {expiry_jalali})")
+       
         # حذف درخواست‌های قدیمی‌تر در SQLite
         logger.debug(f"Deleting older pending bank cards for user {target_user_id}")
         try:
@@ -2194,13 +2208,13 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
                 ])
             )
             return
-
+       
         # به‌روزرسانی در SQLite
         logger.debug(f"Updating bank card status to 'approved' in SQLite for {target_user_id}:{timestamp}")
         try:
             await save_bank_card_to_db(
                 target_user_id, timestamp, phone_number=bank_data["phone_number"],
-                photo_file_id=bank_data["photo_file_id"], status="approved", expiry=expiry.isoformat()
+                photo_file_id=bank_data["photo_file_id"], status="approved", expiry=expiry
             )
             logger.info(f"Bank card status updated to 'approved' in SQLite for {target_user_id}:{timestamp}")
         except sqlite3.Error as e:
@@ -2212,7 +2226,7 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
                 ])
             )
             return
-
+       
         # حذف درخواست‌های قدیمی‌تر در Redis
         logger.debug(f"Deleting older Redis keys for user {target_user_id}")
         try:
@@ -2223,14 +2237,7 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
                     logger.debug(f"Deleted Redis key {key} for user {target_user_id}")
         except Exception as e:
             logger.error(f"Redis error while deleting older bank card keys for user {target_user_id}: {str(e)}")
-            await callback_query.message.edit_text(
-                translations[admin_lang]["error_occurred"],
-                reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                    [InlineKeyboardButton(text=translations[admin_lang]["back"], callback_data="back_to_verifications")]
-                ])
-            )
-            return
-
+       
         # به‌روزرسانی در Redis
         logger.debug(f"Updating Redis for bank card {target_user_id}:{timestamp}")
         try:
@@ -2239,22 +2246,15 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
                 "timestamp": timestamp,
                 "phone_number": bank_data["phone_number"],
                 "status": "approved",
-                "expiry": expiry.isoformat()
+                "expiry": expiry
             }))
             await redis_client.expire("pending_bank_card_verifications", 7200)
             await redis_client.set(f"user:{target_user_id}:bank_card_verified", "true", ex=7200)
             logger.debug(f"Redis updated for bank card {target_user_id}:{timestamp}")
         except Exception as e:
             logger.error(f"Redis error while updating bank card for user {target_user_id}: {str(e)}")
-            await callback_query.message.edit_text(
-                translations[admin_lang]["error_occurred"],
-                reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                    [InlineKeyboardButton(text=translations[admin_lang]["back"], callback_data="back_to_verifications")]
-                ])
-            )
-            return
-
-        # اطلاع‌رسانی به کاربر
+       
+        # ✅ اطلاع‌رسانی تأیید به کاربر (عکس کارت کاربر)
         logger.debug(f"Sending approval notification to user {target_user_id}")
         try:
             await bot.send_photo(
@@ -2269,28 +2269,53 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
                 target_user_id,
                 translations[user_lang]["bank_card_approved_until"].format(expiry=expiry_jalali)
             )
-            logger.info(f"Sent approval notification without photo to user {target_user_id}")
-
+       
         # بررسی خرید در انتظار
         logger.debug(f"Checking pending purchase for user {target_user_id}")
         pending_purchase = await redis_client.get(f"user:{target_user_id}:pending_purchase")
         logger.debug(f"Pending purchase for user {target_user_id}: {pending_purchase}")
+       
         if pending_purchase:
             purchase_data = json.loads(pending_purchase)
             price = purchase_data.get("price", 0)
             logger.debug(f"Sending payment instructions to user {target_user_id} for amount {price}")
+           
             try:
-                await bot.send_message(
-                    target_user_id,
-                    translations[user_lang]["payment_instructions"].format(
-                        card_number=BANK_CARD_NUMBER,
-                        amount=price
+                # ✅ ارسال عکس bank_card_image.jpg از سرور
+                bank_card_msg = None
+                if os.path.exists("bank_card_image.jpg"):
+                    try:
+                        with open("bank_card_image.jpg", "rb") as photo:
+                            bank_card_msg = await bot.send_photo(
+                                target_user_id,
+                                photo=BufferedInputFile(photo.read(), filename="bank_card_image.jpg"),
+                            )
+                        logger.info(f"✅ Bank card image sent to user {target_user_id}")
+                    except Exception as e:
+                        logger.error(f"Error sending bank card image to {target_user_id}: {e}")
+                
+                # ✅ ارسال payment_instructions با REPLY به عکس کارت
+                expiry_str = expiry_dt.strftime("%H:%M:%S")
+                payment_text = translations[user_lang]["payment_instructions"].format(
+                    card_number=BANK_CARD_NUMBER,
+                    amount=price
+                ) + f"\n{translations[user_lang]['expiry_info'].format(expiry=expiry_str)}"
+                
+                if bank_card_msg:
+                    await bot.send_message(
+                        target_user_id,
+                        payment_text,
+                        reply_to_message_id=bank_card_msg.message_id
                     )
-                )
+                else:
+                    await bot.send_message(target_user_id, payment_text)
+                logger.info(f"✅ Payment instructions REPLIED to bank card image for {target_user_id}")
+                
                 await bot.send_message(target_user_id, translations[user_lang]["send_receipt_photo"])
                 await state.set_state(UserStates.VERIFY_RECEIPT)
                 await state.update_data(**purchase_data)
-                logger.debug(f"Set state to VERIFY_RECEIPT for user {target_user_id}")
+                logger.info(f"✅ Complete payment flow sent to {target_user_id}")
+                
             except Exception as e:
                 logger.error(f"Error sending payment instructions to {target_user_id}: {str(e)}")
                 await callback_query.message.edit_text(
@@ -2311,14 +2336,7 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
                 logger.debug(f"Sent retry purchase message to user {target_user_id}")
             except Exception as e:
                 logger.error(f"Error sending retry purchase message to {target_user_id}: {str(e)}")
-                await callback_query.message.edit_text(
-                    translations[admin_lang]["error_occurred"],
-                    reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                        [InlineKeyboardButton(text=translations[admin_lang]["back"], callback_data="back_to_verifications")]
-                    ])
-                )
-                return
-
+       
         # اطلاع‌رسانی به ادمین
         logger.debug(f"Sending approval confirmation to admin {callback_query.from_user.id}")
         try:
@@ -2338,9 +2356,9 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
                 ])
             )
             logger.debug(f"Sent new message for admin {callback_query.from_user.id} with approval confirmation")
-
+       
         logger.info(f"COMPLETED: Bank card approved for user {target_user_id} at {timestamp}")
-
+       
     except Exception as e:
         logger.error(f"Unexpected error in approve_bank_card for user {target_user_id}, timestamp {timestamp}: {str(e)}")
         await callback_query.message.edit_text(
@@ -2349,9 +2367,6 @@ async def approve_bank_card(callback_query: types.CallbackQuery, state: FSMConte
                 [InlineKeyboardButton(text=translations[admin_lang]["back"], callback_data="back_to_verifications")]
             ])
         )
-
-
-
 @router.callback_query(F.data == "cancel_admin")
 async def cancel_admin_action(callback_query: types.CallbackQuery, state: FSMContext):
     user_id = str(callback_query.from_user.id)
@@ -3082,108 +3097,35 @@ async def process_purchase_for(callback_query: types.CallbackQuery, state: FSMCo
     purchase_type = data["purchase_type"]
     price = (PREMIUM_PRICES.get(purchase_type.split("_")[1]) if purchase_type.startswith("premium_")
              else STARS_PRICES.get(purchase_type.split("_")[1]))
-    is_bank_verified = data.get("is_bank_verified", False)
-    logger.debug(f"Processing purchase for user {user_id}, purchase_type: {purchase_type}, is_bank_verified: {is_bank_verified}")
-
+    
     if callback_query.data == "for_myself":
         user_name = callback_query.from_user.username or callback_query.from_user.first_name or user_id
         await state.update_data(target_id=user_id, target_name=user_name)
         keyboard = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text=translations[lang]["confirm"], callback_data="confirm_purchase")],
-            [InlineKeyboardButton(text=translations[lang]["cancel"], callback_data="cancel_purchase")],
-            [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_purchase_type")]
+            [InlineKeyboardButton(text="✅ تأیید", callback_data="confirm_purchase")],
+            [InlineKeyboardButton(text="❌ لغو", callback_data="cancel_purchase")]
         ])
         await callback_query.message.edit_text(
             translations[lang]["confirm_purchase"].format(type=purchase_type, target=user_name, price=price),
             reply_markup=keyboard
         )
         await state.set_state(UserStates.PURCHASE_CONFIRM)
-    else:
-        keyboard = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text=translations[lang]["cancel"], callback_data="cancel_purchase")],
-            [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_purchase_type")]
-        ])
+    
+    else:  # ✅ برای دیگران - مستقیم!
         await callback_query.message.edit_text(
-            translations[lang]["enter_other_phone"],
-            reply_markup=keyboard
+            "👤 ID یا یوزرنیم بنویس:\n\n"
+            "مثال:\n"
+            "• 8327717833\n"
+            "• @username\n\n"
+            f"📦 {purchase_type}\n"
+            f"💰 {price:,} تومان"
         )
-        await state.set_state(UserStates.ENTER_OTHER_PHONE)  
-        
+        await state.set_state(UserStates.ENTER_OTHER_PHONE)
 
 
 
-@router.message(StateFilter(UserStates.ENTER_OTHER_PHONE))
-async def process_other_phone(message: types.Message, state: FSMContext):
-    user_id = str(message.from_user.id)
-    lang = await get_user_language(user_id)
-    input_text = message.text.strip()
-    
-    target_id = None
-    target_name = None
-    if input_text.startswith("@"):
-        username = input_text[1:]
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(f"https://api.telegram.org/bot{BOT_TOKEN}/getChat?chat_id=@{username}") as resp:
-                    result = await resp.json()
-                    if result.get("ok"):
-                        target_id = str(result["result"]["id"])
-                        target_name = result["result"].get("username", result["result"].get("first_name", target_id))
-                    else:
-                        await message.reply(translations[lang]["user_not_found"], reply_markup=await get_main_menu(lang, user_id))
-                        return
-        except aiohttp.ClientError as e:
-            logger.error(f"Error fetching user info for {username}: {e}")
-            await message.reply(translations[lang]["error_occurred"], reply_markup=await get_main_menu(lang, user_id))
-            return
-    elif input_text.isdigit():
-        target_id = input_text
-        try:
-            user_info = await bot.get_chat(target_id)
-            target_name = user_info.username or user_info.first_name or target_id
-        except Exception as e:
-            logger.error(f"Error fetching user info for ID {target_id}: {e}")
-            await message.reply(translations[lang]["user_not_found"], reply_markup=await get_main_menu(lang, user_id))
-            return
-    elif input_text.startswith("+") and input_text[1:].isdigit():
-        target_id = await redis_client.get(f"phone:{input_text}")
-        if not target_id:
-            await message.reply(translations[lang]["user_not_found"], reply_markup=await get_main_menu(lang, user_id))
-            return
-        try:
-            user_info = await bot.get_chat(target_id)
-            target_name = user_info.username or user_info.first_name or target_id
-        except Exception as e:
-            logger.error(f"Error fetching user info for phone {input_text}: {e}")
-            await message.reply(translations[lang]["user_not_found"], reply_markup=await get_main_menu(lang, user_id))
-            return
-    else:
-        await message.reply(translations[lang]["invalid_phone_format"], reply_markup=await get_main_menu(lang, user_id))
-        return
-    
-    try:
-        await bot.send_chat_action(target_id, "typing")
-    except Exception as e:
-        logger.error(f"Cannot send message to user {target_id}: {e}")
-        await message.reply(translations[lang]["user_blocked_bot"], reply_markup=await get_main_menu(lang, user_id))
-        return
-    
-    data = await state.get_data()
-    purchase_type = data["purchase_type"]
-    price = (PREMIUM_PRICES.get(purchase_type.split("_")[1]) if purchase_type.startswith("premium_")
-             else STARS_PRICES.get(purchase_type.split("_")[1]))
-    await state.update_data(target_id=target_id, target_name=target_name)
-    
-    keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=translations[lang]["confirm"], callback_data="confirm_purchase")],
-        [InlineKeyboardButton(text=translations[lang]["cancel"], callback_data="cancel_purchase")],
-        [InlineKeyboardButton(text=translations[lang]["back"], callback_data="back_to_purchase_type")]
-    ])
-    await message.reply(
-        translations[lang]["confirm_purchase"].format(type=purchase_type, target=target_name, price=price),
-        reply_markup=keyboard
-    )
-    await state.set_state(UserStates.PURCHASE_CONFIRM)
+
+
 
 @router.callback_query(F.data == "cancel_purchase")
 async def cancel_purchase(callback_query: types.CallbackQuery, state: FSMContext):
@@ -3213,70 +3155,67 @@ async def confirm_purchase(callback_query: types.CallbackQuery, state: FSMContex
     plan_category = data.get("plan_category")
     price = (PREMIUM_PRICES.get(purchase_type.split("_")[1]) if purchase_type.startswith("premium_")
              else STARS_PRICES.get(purchase_type.split("_")[1]))
-
-    # بررسی کارت تأییدشده در SQLite
+    
+    logger.info(f"🔍 confirm_purchase: {purchase_type}, target_id: {target_id}")
+    
+    # ✅ pending_purchase موجود رو بگیر + target_id اضافه کن!
+    existing_pending = await redis_client.get(f"user:{user_id}:pending_purchase")
+    pending_data = json.loads(existing_pending) if existing_pending else {}
+    
+    # ✅ MERGE: موجود + جدید
+    pending_data.update({
+        "purchase_type": purchase_type,
+        "target_id": target_id,
+        "target_name": target_name,
+        "plan_category": plan_category,
+        "price": price
+    })
+    logger.info(f"💾 MERGE pending: {pending_data}")
+    
+    await redis_client.set(f"user:{user_id}:pending_purchase", json.dumps(pending_data), ex=3600)
+    
+    # ✅ بقیه مثل قبل...
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute('SELECT expiry, photo_file_id FROM bank_cards WHERE user_id = ? AND status = "approved" ORDER BY timestamp DESC LIMIT 1', (user_id,))
     approved_card = cursor.fetchone()
     conn.close()
-
+    
     is_bank_verified = False
     expiry_dt = None
-    photo_file_id = None
     if approved_card and approved_card[0]:
         expiry_dt = datetime.fromisoformat(approved_card[0])
-        photo_file_id = approved_card[1]
         is_bank_verified = datetime.now() <= expiry_dt
-
+    
     if is_bank_verified:
         expiry_str = expiry_dt.strftime("%H:%M:%S") if expiry_dt else "23:59:59"
-        if photo_file_id:
+        
+        bank_card_msg = None
+        if os.path.exists("bank_card_image.jpg"):
             try:
-                await bot.send_photo(
-                    user_id,
-                    photo=photo_file_id,
-                    caption=translations[lang]["confirmed_bank_card_info"]
-                )
+                with open("bank_card_image.jpg", "rb") as photo:
+                    bank_card_msg = await bot.send_photo(
+                        user_id,
+                        photo=BufferedInputFile(photo.read(), filename="bank_card_image.jpg"),
+                    )
+                logger.info(f"✅ Bank card image sent")
             except Exception as e:
-                logger.error(f"Error sending bank card photo to {user_id}: {e}")
-                await callback_query.message.reply(translations[lang]["error_sending_photo"])
-
-        try:
-            await callback_query.message.edit_text(
-                translations[lang]["payment_instructions"].format(
-                    card_number=BANK_CARD_NUMBER, amount=price
-                ) + f"\n{translations[lang]['expiry_info'].format(expiry=expiry_str)}"
-            )
-        except Exception as e:
-            logger.error(f"Error editing message for user {user_id}: {e}")
-            await callback_query.message.reply(
-                translations[lang]["payment_instructions"].format(
-                    card_number=BANK_CARD_NUMBER, amount=price
-                ) + f"\n{translations[lang]['expiry_info'].format(expiry=expiry_str)}"
-            )
-
-        await callback_query.message.reply(translations[lang]["send_receipt_photo"])
-        pending_data = {
-            "purchase_type": purchase_type,
-            "target_id": target_id,
-            "target_name": target_name,
-            "plan_category": plan_category,
-            "price": price
-        }
-        await redis_client.set(f"user:{user_id}:pending_purchase", json.dumps(pending_data), ex=3600)
+                logger.error(f"Error sending image: {e}")
+        
+        payment_text = translations[lang]["payment_instructions"].format(
+            card_number=BANK_CARD_NUMBER, amount=price
+        ) + f"\n{translations[lang]['expiry_info'].format(expiry=expiry_str)}"
+        
+        if bank_card_msg:
+            await bot.send_message(user_id, payment_text, reply_to_message_id=bank_card_msg.message_id)
+        else:
+            await bot.send_message(user_id, payment_text)
+        
+        await bot.send_message(user_id, translations[lang]["send_receipt_photo"])
         await state.set_state(UserStates.VERIFY_RECEIPT)
-        await state.update_data(purchase_type=purchase_type, target_id=target_id, target_name=target_name, plan_category=plan_category, price=price)
+        logger.info(f"✅ Payment flow: target_id={target_id}")
+        
     else:
-        pending_data = {
-            "purchase_type": purchase_type,
-            "target_id": target_id,
-            "target_name": target_name,
-            "plan_category": plan_category,
-            "price": price
-        }
-        await redis_client.set(f"user:{user_id}:pending_purchase", json.dumps(pending_data), ex=3600)
-        await callback_query.message.edit_text(translations[lang]["bank_card_required"])
         share_keyboard = ReplyKeyboardMarkup(
             keyboard=[
                 [KeyboardButton(text="📞", request_contact=True)],
@@ -3285,12 +3224,9 @@ async def confirm_purchase(callback_query: types.CallbackQuery, state: FSMContex
             resize_keyboard=True,
             one_time_keyboard=True
         )
-        await callback_query.message.reply(
-            translations[lang]["enter_phone_number"],
-            reply_markup=share_keyboard
-        )
+        await callback_query.message.reply(translations[lang]["enter_phone_number"], reply_markup=share_keyboard)
         await state.set_state(UserStates.ENTER_PHONE_NUMBER)
-        await state.update_data(purchase_type=purchase_type, target_id=target_id, target_name=target_name, plan_category=plan_category, price=price)
+
 
 async def retry_purchase_type(callback_query: types.CallbackQuery, state: FSMContext):
     user_id = str(callback_query.from_user.id)
