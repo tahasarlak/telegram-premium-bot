@@ -1,0 +1,12 @@
+[phases.setup]
+aptPkgs = ['libsqlite3-dev']  # نصب libsqlite3
+nixPkgs = ['python-3.10', 'sqlite']  # اطمینان از نصب SQLite و Python 3.10
+
+[phases.install]
+cmds = ['pip install -r requirements.txt']  # نصب وابستگی‌های پایتون
+
+[phases.build]
+cmds = ['echo "Build phase completed"']  # اختیاری
+
+[start]
+cmd = 'python telegram_bot.py'  # اجرای کد اصلی
