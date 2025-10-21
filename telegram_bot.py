@@ -3250,27 +3250,10 @@ async def retry_purchase_type(callback_query: types.CallbackQuery, state: FSMCon
 async def main():
     await load_prices()
     logger.info("✅ Prices loaded successfully!")
-    webhook_url = os.getenv("WEBHOOK_URL")
-    if webhook_url:
-        try:
-            await bot.delete_webhook()
-            await bot.set_webhook(webhook_url)
-            logger.info(f"Webhook set to {webhook_url}")
-            await dp.start_webhook(
-                dispatcher=dp,
-                webhook_path="/webhook",
-                host="0.0.0.0",
-                port=int(os.getenv("PORT", 10000))
-            )
-        except Exception as e:
-            logger.error(f"Failed to set webhook: {e}")
-            await bot.delete_webhook()
-            await dp.start_polling(bot)
-    else:
-        logger.info("No WEBHOOK_URL set, falling back to polling")
-        await dp.start_polling(bot)
+    await dp.start_polling(bot)
     await bot.session.close()
     logger.info("Bot session closed")
+    
 
 if __name__ == "__main__":
     asyncio.run(main())
