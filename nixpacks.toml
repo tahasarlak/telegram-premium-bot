@@ -1,5 +1,5 @@
 [phases.setup]
-aptPkgs = ['libsqlite3-0', 'sqlite3']
+aptPkgs = ['libsqlite3-0', 'libsqlite3-dev', 'sqlite3', 'libc6-dev']
 nixPkgs = ['python-3.10', 'sqlite']  # اطمینان از Python 3.10 و SQLite
 
 [phases.install]
